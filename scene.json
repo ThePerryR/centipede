@@ -1,0 +1,46 @@
+{
+  "display": {
+    "title": "Test",
+    "favicon": "favicon_asset"
+  },
+  "contact": {
+    "name": "Perry Ratcliff",
+    "email": "perryratcliff@gmail.com"
+  },
+  "owner": "0xD4b6eA173999FE4ebA469a39a6526133d6B5109d",
+  "scene": {
+    "parcels": [
+      "-48,-12"
+    ],
+    "base": "-48,-12"
+  },
+  "communications": {
+    "type": "webrtc",
+    "signalling": "https://signalling-01.decentraland.org"
+  },
+  "policy": {
+    "contentRating": "E",
+    "fly": true,
+    "voiceEnabled": true,
+    "blacklist": []
+  },
+  "requiredPermissions": [],
+  "main": "bin/game.js",
+  "tags": [],
+  "spawnPoints": [
+    {
+      "name": "spawn1",
+      "default": true,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "cameraTarget": {
+        "x": 8,
+        "y": 1,
+        "z": 8
+      }
+    }
+  ]
+}
