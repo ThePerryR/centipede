@@ -7,7 +7,6 @@ export class SceneManager {
 
         this._initGround()
         this.cave = this._initCave()
-        this.spawnMushroom()
     }
 
     _initGround() {
@@ -33,7 +32,7 @@ export class SceneManager {
         engine.addEntity(cave)
 
         const transform = new Transform({
-            position: new Vector3(4.5, 0, 5.5),
+            position: new Vector3(3.5, 0, 3.5),
             rotation: new Quaternion(0, 0, 0, 1),
             scale: new Vector3(1, 1, 1)
         })
@@ -44,9 +43,5 @@ export class SceneManager {
         gltfShape.visible = true
         cave.addComponentOrReplace(gltfShape)
         return cave
-    }
-
-    spawnMushroom() {
-        const mushroom = new Mushroom(14, 14)
     }
 }

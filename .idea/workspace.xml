@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="" />
+    <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Target.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Creature.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Creature.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CreatureAttack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CreatureAttack.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mushroom.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SpawnManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SpawnManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SpawnSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SpawnSystem.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Spider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spider.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1oLhRFGy7l6zXB1QwKFe81eb6c7" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -16,12 +32,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Users\ThePe_1u2\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\203.5981.135\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\dcl" />
       <recent name="D:\dcl\models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -36,11 +54,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1613071767892</updated>
-      <workItem from="1613071769080" duration="14406000" />
+      <workItem from="1613071769080" duration="16043000" />
+      <workItem from="1613146811722" duration="541000" />
+      <workItem from="1613156721178" duration="6670000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

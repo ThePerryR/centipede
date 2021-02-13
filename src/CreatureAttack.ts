@@ -12,16 +12,25 @@ export class CreatureAttack implements ISystem {
     update(dt: number) {
         for (const entity of this.creatures.entities) {
             const transform = entity.getComponent(Transform)
-            const lookAtTarget = new Vector3(this.player.position.x, transform.position.y, this.player.position.z)
+            const creature = entity.getComponent(Creature)
+
+            if (!creature.targetMushroom || !creature.targetMushroom.alive) creature.setTarget()
+            const {rotationSpeed, movementSpeed, targetMushroom} = creature
+
+            const targetPosition = targetMushroom ? targetMushroom.getComponent(Transform).position : this.player.position
+
+            const lookAtTarget = new Vector3(targetPosition.x, transform.position.y, targetPosition.z)
             const direction = lookAtTarget.subtract(transform.position)
-            const {rotationSpeed, movementSpeed} = entity.getComponent(Creature)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), dt * rotationSpeed)
 
-            const distance = Vector3.DistanceSquared(transform.position, this.player.position)
-            if (distance > 1) {
+            const distance = Vector3.DistanceSquared(transform.position, targetPosition)
+            if (distance > 0.1) {
                 const forwardVector = Vector3.Forward().rotate(transform.rotation)
                 const increment = forwardVector.scale(dt * movementSpeed)
                 transform.translate(increment)
+            } else if (targetMushroom) {
+                targetMushroom.die()
+                creature.setTarget()
             }
         }
     }
