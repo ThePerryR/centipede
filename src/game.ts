@@ -1,11 +1,40 @@
+import utils from "../node_modules/decentraland-ecs-utils/index"
+
 import {SceneManager} from './SceneManager'
-import {SpawnManager} from './SpawnManager'
-import {InputManager} from './InputManager'
-import {CreatureAttack} from "./CreatureAttack";
-import {SpawnSystem} from "./SpawnSystem";
+import {Tank} from './Tank'
 
-engine.addSystem(new CreatureAttack())
 const sceneManager = new SceneManager()
+const tank = new Tank()
 
-engine.addSystem(new SpawnSystem(new SpawnManager(sceneManager.cave.getComponent(Transform).position)))
-new InputManager()
+// attach tank to player
+tank.setParent(Attachable.AVATAR)
+
+
+const hideAvatarsEntity = new Entity()
+
+//
+hideAvatarsEntity.addComponent(
+    new AvatarModifierArea({
+        area: {box: new Vector3(16, 4, 16)},
+        modifiers: [AvatarModifiers.HIDE_AVATARS]
+    })
+)
+hideAvatarsEntity.addComponent(new BoxShape())
+hideAvatarsEntity.addComponent(
+    new Transform({position: new Vector3(8, 2, 8)})
+)
+engine.addEntity(hideAvatarsEntity)
+
+hideAvatarsEntity.addComponent(
+    new utils.TriggerComponent(
+        new utils.TriggerBoxShape(new Vector3(16, 4, 11), Vector3.Zero()),
+        {
+            onCameraEnter: () => {
+                tank.getComponent(Transform).scale.setAll(1)
+            },
+            onCameraExit: () => {
+                tank.getComponent(Transform).scale.setAll(0)
+            }
+        }
+    )
+)

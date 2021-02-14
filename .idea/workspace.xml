@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Target.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Tank.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Creature.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Creature.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreatureAttack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CreatureAttack.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mushroom.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SpawnManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SpawnManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SpawnSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SpawnSystem.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Spider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spider.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
