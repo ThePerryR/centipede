@@ -13,8 +13,8 @@ enum Direction {
 
 let currentLevel = 1
 let MINIMUM_LENGTH = 8
-
-new InputManager()
+const gameState = new GameState()
+new InputManager(gameState)
 
 const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 

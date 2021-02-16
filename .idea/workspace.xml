@@ -2,26 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Body.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BodyComponent.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Centipede.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CentipedeComponent.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Creature.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreatureAttack.ts" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SpawnManager.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SpawnSystem.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Spider.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tank.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Target.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zombie.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +55,7 @@
       <workItem from="1613156721178" duration="6670000" />
       <workItem from="1613347743016" duration="1686000" />
       <workItem from="1613404555016" duration="15292000" />
-      <workItem from="1613486694255" duration="4253000" />
+      <workItem from="1613486694255" duration="4566000" />
     </task>
     <servers />
   </component>
@@ -92,6 +75,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="631" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613505629881">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="631" y="455" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1613505629881" />
     <state x="505" y="252" width="670" height="676" key="search.everywhere.popup" timestamp="1613425646243">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
