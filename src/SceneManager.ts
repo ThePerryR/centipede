@@ -2,6 +2,14 @@
 export class SceneManager {
     constructor() {
         this._initGround()
+
+        const rock = new Entity()
+        rock.addComponent(new Transform({
+            position: new Vector3(8, 1, 0.5),
+            scale: new Vector3(2, 2, 1)
+        }))
+        rock.addComponent(new BoxShape())
+        engine.addEntity(rock)
     }
 
     _initGround() {

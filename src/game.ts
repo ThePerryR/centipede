@@ -1,40 +1,36 @@
-import utils from "../node_modules/decentraland-ecs-utils/index"
-
 import {SceneManager} from './SceneManager'
-import {Tank} from './Tank'
+import {CentipedeComponent} from './CentipedeComponent'
+import {Centipede} from './Centipede'
+import {InputManager} from "./InputManager";
+
+enum Direction {
+    Up = 0,
+    Down,
+    Left,
+    Right
+}
+
+
+let currentLevel = 1
+let MINIMUM_LENGTH = 8
+
+new InputManager()
+
+const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
+
+class CentipedeService implements ISystem {
+    update(dt: number): void {
+        for (const centipede of centipedeGroup.entities) {
+            const c = centipede as Centipede
+            c.update(dt)
+        }
+
+    }
+}
+
+engine.addSystem(new CentipedeService())
+
+new Centipede(8, 2, MINIMUM_LENGTH + currentLevel, Direction.Down, Direction.Right)
 
 const sceneManager = new SceneManager()
-const tank = new Tank()
 
-// attach tank to player
-tank.setParent(Attachable.AVATAR)
-
-
-const hideAvatarsEntity = new Entity()
-
-//
-hideAvatarsEntity.addComponent(
-    new AvatarModifierArea({
-        area: {box: new Vector3(16, 4, 16)},
-        modifiers: [AvatarModifiers.HIDE_AVATARS]
-    })
-)
-hideAvatarsEntity.addComponent(new BoxShape())
-hideAvatarsEntity.addComponent(
-    new Transform({position: new Vector3(8, 2, 8)})
-)
-engine.addEntity(hideAvatarsEntity)
-
-hideAvatarsEntity.addComponent(
-    new utils.TriggerComponent(
-        new utils.TriggerBoxShape(new Vector3(16, 4, 11), Vector3.Zero()),
-        {
-            onCameraEnter: () => {
-                tank.getComponent(Transform).scale.setAll(1)
-            },
-            onCameraExit: () => {
-                tank.getComponent(Transform).scale.setAll(0)
-            }
-        }
-    )
-)
