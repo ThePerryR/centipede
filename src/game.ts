@@ -9,6 +9,11 @@ import State from "./constants/State";
 import gameSettings from "./constants/gameSettings";
 import {centipedeSpawner} from "./centipedeSpawner";
 import {Mushroom} from "./Mushroom";
+import {Spider} from "./Spider";
+
+function random(chance: number) {
+    return Math.floor(Math.random() * chance);
+}
 
 const gameState = new GameState()
 new InputManager(gameState)
@@ -30,15 +35,69 @@ function initialiseLevel() {
     }
 }
 
-class CentipedeService implements ISystem {
+class GameManagerService implements ISystem {
+    spider: Spider
+    constructor() {
+        this.spider = new Spider()
+    }
     update(dt: number): void {
         if (gameState.state === State.Active) {
+            if (!this.spider.alive && random(gameSettings.SPIDER_CHANCE) === 0) {
+                const x = Camera.instance.position.x < 8 ? gameSettings.RIGHT_BOUNDARY - 1 : 0;
+                const z = 8 + random(5);
+                this.spider.x = x
+                this.spider.z = z
+                this.spider.dx = x === 0 ? 0.25 : -0.25
+                this.spider.dz = -0.25
+                this.spider.maxZ = gameSettings.DOWN_BOUNDARY - 1
+                this.spider.minZ = (gameSettings.DOWN_BOUNDARY - 5) + 1
+                this.spider.startDx = this.spider.dx
+                this.spider.prevX = x - 4 * this.spider.dx
+                this.spider.prevZ = z - 4 * this.spider.dz
+                /*
+                prevX: -1,
+                dx: x === 0 ? 0.25 : -0.25,
+                maxY: globalSettings.gameBoardHeight -1,
+                minY: (globalSettings.gameBoardHeight - globalSettings.playerAreaHeight) + 1,
+                dy: -0.25prevX: -1,
+                dx: x === 0 ? 0.25 : -0.25,
+                maxY: globalSettings.gameBoardHeight -1,
+                minY: (globalSettings.gameBoardHeight - globalSettings.playerAreaHeight) + 1,
+                dy: -0.25
+                 */
+                this.spider.getComponent(Transform).position.x = x
+                this.spider.getComponent(Transform).position.z = z
+                engine.addEntity(this.spider)
+                //create(x, y);
+            }
+            if (this.spider.alive) {
+                let changeX = true
+                if (this.spider.z >= this.spider.maxZ) {
+                    this.spider.dz = -0.25;
+                } else if (this.spider.z <= this.spider.minZ) {
+                    this.spider.dz = 0.25;
+                } else {
+                    changeX = false;
+                }
+                if (changeX) {
+                    if (Math.floor(Math.random() * 4) === 0) {
+                        this.spider.dx = 0;
+                    } else {
+                        this.spider.dx = this.spider.startDx;
+                    }
+                }
+                this.spider.prevZ = this.spider.z;
+                this.spider.prevX = this.spider.x;
+
+                this.spider.x += (4 * this.spider.dx);
+                this.spider.z += (4 * this.spider.dz);
+            }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             if (!aliveCentipedes.length) {
                 gameState.startLevelTransition()
                 return
             }
-            for (const centipede of centipedeGroup.entities) {
+            for (const centipede of aliveCentipedes) {
                 const c = centipede as Centipede
                 c.update(dt)
             }
@@ -59,7 +118,7 @@ class CentipedeService implements ISystem {
 
 initialiseLevel()
 
-engine.addSystem(new CentipedeService())
+engine.addSystem(new GameManagerService())
 
 const sceneManager = new SceneManager()
 

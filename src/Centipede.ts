@@ -25,7 +25,6 @@ export class Centipede extends Entity {
     constructor(x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
         super();
 
-        log("STAART")
         engine.addEntity(this)
         this.addComponent(new CentipedeComponent())
         this.x = x // width / 2

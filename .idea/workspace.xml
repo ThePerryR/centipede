@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Spider.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Centipede.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Centipede.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mushroom.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/gameSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/gameSettings.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +52,7 @@
       <recent name="D:\dcl\models" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -84,5 +86,15 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="978" y="489" width="604" height="486" key="find.popup" timestamp="1613581775901">
+      <screen x="0" y="25" width="2560" height="1415" />
+    </state>
+    <state x="978" y="489" width="604" height="486" key="find.popup/0.25.2560.1415/2560.25.2560.1415/-1680.836.1680.1025@0.25.2560.1415" timestamp="1613581775901" />
+    <state x="945" y="349" width="670" height="58" key="search.everywhere.popup" timestamp="1613582096319">
+      <screen x="0" y="25" width="2560" height="1415" />
+    </state>
+    <state x="945" y="349" width="670" height="58" key="search.everywhere.popup/0.25.2560.1415/2560.25.2560.1415/-1680.836.1680.1025@0.25.2560.1415" timestamp="1613582096319" />
   </component>
 </project>

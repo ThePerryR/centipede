@@ -1,4 +1,4 @@
-import * as ui from '../node_modules/@dcl/ui-utils/index'
+import {UICounter} from '@dcl/ui-scene-utils'
 
 import {Mushroom} from './Mushroom'
 import State from "./constants/State";
@@ -12,11 +12,12 @@ export class GameState {
     score = 0
     level = 1
     state = State.Active
-    counter: ui.UICounter
+
+    counter: UICounter
 
     constructor() {
         this.generateMushroom()
-        this.counter = new ui.UICounter(this.score)
+        this.counter = new UICounter(this.score)
     }
 
     incrementScore(score: number) {
@@ -39,7 +40,6 @@ export class GameState {
     }
 
     startLevelTransition() {
-        log("LVELL TRANSITION")
         this.state = State.LevelTransition
         this.level++
     }
