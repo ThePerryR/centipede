@@ -39,6 +39,7 @@ export class GameState {
     }
 
     startLevelTransition() {
+        log("LVELL TRANSITION")
         this.state = State.LevelTransition
         this.level++
     }

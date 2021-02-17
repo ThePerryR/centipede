@@ -46,20 +46,7 @@ export class Centipede extends Entity {
 
         this.addComponent(new BoxShape())
 
-        let xBody = this.x
-        let zBody = this.z
-
-        const zDiff = this.z - this.prevZ
-        const xDiff = this.x - this.prevX
-
-        this.body = []
-        for (let i = 0; i < bodyLength; i++) {
-            xBody -= xDiff;
-            zBody -= zDiff;
-
-            const body = new Body(xBody + xDiff, this.z, xBody, zBody, this)
-            this.body.push(body)
-        }
+        this.initBodies()
 
         const triggerShape = new utils.TriggerBoxShape(new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE), Vector3.Zero())
         this.addComponent(new utils.TriggerComponent(
@@ -69,6 +56,23 @@ export class Centipede extends Entity {
                 enableDebug: true
             }
         ))
+    }
+
+    initBodies () {
+        let xBody = this.x
+        let zBody = this.z
+
+        const zDiff = this.z - this.prevZ
+        const xDiff = this.x - this.prevX
+
+        this.body = []
+        for (let i = 0; i < this.bodyLength; i++) {
+            xBody -= xDiff;
+            zBody -= zDiff;
+
+            const body = new Body(xBody + xDiff, this.z, xBody, zBody, this)
+            this.body.push(body)
+        }
     }
 
     _setPositionFromDirection(dt: number) {

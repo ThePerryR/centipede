@@ -15,6 +15,19 @@ export const centipedeSpawner = {
     getEntityFromPool(x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction): Entity | null {
         for (const entity of centipedeSpawner.pool) {
             if (!entity.alive) {
+                const centipede = entity as Centipede
+                engine.addEntity(centipede)
+                centipede.x = x
+                centipede.z = z
+                centipede.prevX = x
+                centipede.prevZ = z
+                centipede.bodyLength = bodyLength
+                centipede.previousDirection = previousDirection
+                centipede.currentDirection = currentDirection
+                centipede._setPositionFromDirection(1)
+                centipede.getComponent(Transform).position.x = centipede.prevX
+                centipede.getComponent(Transform).position.z = centipede.prevZ
+                centipede.initBodies()
                 return entity
             }
         }

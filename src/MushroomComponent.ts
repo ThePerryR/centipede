@@ -1,4 +1,4 @@
 @Component("mushroomComponent")
 export class MushroomComponent {
-    health: number = 4
+    health: number = 2
 }

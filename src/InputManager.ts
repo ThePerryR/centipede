@@ -9,12 +9,32 @@ import Direction from "./constants/Direction";
 export class InputManager {
     input: Input
     gameState: GameState
+    shootSfx: AudioSource
+    hitSfx: AudioSource
 
     constructor(gameState: GameState) {
         this.input = Input.instance
         this.gameState = gameState
 
+        const shootSoundEntity = new Entity()
+        const shootSoundClip = new AudioClip("sounds/hit-1.wav")
+        this.shootSfx = new AudioSource(shootSoundClip)
+        this.shootSfx.volume = 0.2
+        shootSoundEntity.addComponent(this.shootSfx)
+        engine.addEntity(shootSoundEntity)
+        shootSoundEntity.setParent(Attachable.AVATAR)
+
+        const hitSoundEntity = new Entity()
+        const hitSoundClip = new AudioClip("sounds/hit.wav")
+        this.hitSfx = new AudioSource(hitSoundClip)
+        this.hitSfx.volume = 0.2
+        hitSoundEntity.addComponent(this.hitSfx)
+        engine.addEntity(hitSoundEntity)
+        hitSoundEntity.setParent(Attachable.AVATAR)
+
+
         this.input.subscribe('BUTTON_DOWN', ActionButton.POINTER, true, (e) => {
+            this.shootSfx.playOnce()
             if (e.hit && engine.entities[e.hit.entityId] != undefined) {
                 const hitEntity = engine.entities[e.hit.entityId]
                 let collisionScore = 0
@@ -28,6 +48,7 @@ export class InputManager {
                     }
                     collisionScore += 10
                 }
+
                 // Hit head
                 if (hitEntity.getComponentOrNull(CentipedeComponent)) {
                     const centipede = hitEntity as Centipede
@@ -41,6 +62,8 @@ export class InputManager {
                     }
                     collisionScore += 100
                     this.gameState.spawnMushroom(centipede.x, centipede.z)
+
+                    this.hitSfx.playOnce()
                 }
 
                 // Hit Body
@@ -70,6 +93,7 @@ export class InputManager {
                     }
                     collisionScore += 100
                     this.gameState.spawnMushroom(body.prevX, body.prevZ)
+                    this.hitSfx.playOnce()
                 }
 
                 if (collisionScore) {
@@ -80,7 +104,6 @@ export class InputManager {
                 gameStateService.incrementScore(collisionScore);
                 scoreMarkerService.create(x, y, collisionScore);
                  */
-                log(hitEntity)
             }
         })
     }
