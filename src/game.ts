@@ -8,6 +8,7 @@ import Direction from "./constants/Direction";
 import State from "./constants/State";
 import gameSettings from "./constants/gameSettings";
 import {centipedeSpawner} from "./centipedeSpawner";
+import {Mushroom} from "./Mushroom";
 
 const gameState = new GameState()
 new InputManager(gameState)
@@ -44,7 +45,10 @@ class CentipedeService implements ISystem {
         }
         if (gameState.state === State.LevelTransition) {
             for (const entity of mushroomGroup.entities) {
-                entity.getComponent(MushroomComponent).health = 4
+                const mushroom = entity as Mushroom
+                mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
+                mushroom.mushroomLarge.getComponent(GLTFShape).visible = true
+                entity.getComponent(MushroomComponent).health = 2
             }
 
             initialiseLevel()

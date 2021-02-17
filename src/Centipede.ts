@@ -16,7 +16,7 @@ export class Centipede extends Entity {
     bodyLength: number
     previousDirection: Direction
     currentDirection: Direction
-    body: Body[]
+    body: Body[] = []
     dx: number = 0
     dz: number = 0
     t: number = 0

@@ -27,7 +27,7 @@ export class GameState {
     generateMushroom() {
         for (let h = 2; h < 14; h += gameSettings.SCALE * 2) {
             for (let w = 1; w < 15.4; w += gameSettings.SCALE * 2) {
-                if (!random(h < 8 ? 16 : 50)) {
+                if (!random(h < 11 ? gameSettings.MUSHROOM_CHANCE_NON_PLAYER : gameSettings.MUSHROOM_CHANCE_PLAYER)) {
                     this.spawnMushroom(w, h)
                 }
             }

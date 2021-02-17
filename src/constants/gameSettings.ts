@@ -1,11 +1,13 @@
 const gameSettings = {
-    MINIMUM_LENGTH: 3,
+    MINIMUM_LENGTH: 10,
     MAX_CENTIPEDES: 9,
     SCALE: 0.2,
-    MOVE_TIME: 0.2,
+    MOVE_TIME: 0.15,
     UP_BOUNDARY: 1,
     DOWN_BOUNDARY: 15,
     LEFT_BOUNDARY: 1,
-    RIGHT_BOUNDARY: 15
+    RIGHT_BOUNDARY: 15,
+    MUSHROOM_CHANCE_NON_PLAYER: 38,
+    MUSHROOM_CHANCE_PLAYER: 56
 }
 export default gameSettings

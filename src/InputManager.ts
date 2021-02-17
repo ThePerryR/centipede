@@ -5,12 +5,16 @@ import {Body} from "./Body";
 import {GameState} from "./GameState";
 import {MushroomComponent} from "./MushroomComponent";
 import Direction from "./constants/Direction";
+import {Mushroom} from "./Mushroom";
 
 export class InputManager {
     input: Input
     gameState: GameState
     shootSfx: AudioSource
     hitSfx: AudioSource
+    hitSfxEntity: Entity
+    squishSfx: AudioSource
+    squishSfxEntity: Entity
 
     constructor(gameState: GameState) {
         this.input = Input.instance
@@ -25,12 +29,24 @@ export class InputManager {
         shootSoundEntity.setParent(Attachable.AVATAR)
 
         const hitSoundEntity = new Entity()
+        hitSoundEntity.addComponent(new Transform())
         const hitSoundClip = new AudioClip("sounds/hit.wav")
         this.hitSfx = new AudioSource(hitSoundClip)
-        this.hitSfx.volume = 0.2
+        this.hitSfx.volume = 1
         hitSoundEntity.addComponent(this.hitSfx)
         engine.addEntity(hitSoundEntity)
-        hitSoundEntity.setParent(Attachable.AVATAR)
+        this.hitSfxEntity = hitSoundEntity
+        //hitSoundEntity.setParent(Attachable.AVATAR)
+
+        const squishSoundEntity = new Entity()
+        squishSoundEntity.addComponent(new Transform())
+        const squishSoundClip = new AudioClip("sounds/hit-2.wav")
+        this.squishSfx = new AudioSource(squishSoundClip)
+        this.squishSfx.volume = 1
+        squishSoundEntity.addComponent(this.squishSfx)
+        engine.addEntity(squishSoundEntity)
+        this.squishSfxEntity = squishSoundEntity
+        //squishSoundEntity.setParent(Attachable.AVATAR)
 
 
         this.input.subscribe('BUTTON_DOWN', ActionButton.POINTER, true, (e) => {
@@ -41,10 +57,16 @@ export class InputManager {
 
                 // Hit Mushroom
                 if (hitEntity.getComponentOrNull(MushroomComponent)) {
+                    this.squishSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
+                    this.squishSfx.playOnce()
+                    const mushroom = hitEntity as Mushroom
                     const mushroomComponent = hitEntity.getComponent(MushroomComponent)
                     mushroomComponent.health--
                     if (mushroomComponent.health === 0) {
                         engine.removeEntity(hitEntity)
+                    } else if (mushroomComponent.health === 1) {
+                        mushroom.mushroomSmall.getComponent(GLTFShape).visible = true
+                        mushroom.mushroomLarge.getComponent(GLTFShape).visible = false
                     }
                     collisionScore += 10
                 }
@@ -52,6 +74,8 @@ export class InputManager {
                 // Hit head
                 if (hitEntity.getComponentOrNull(CentipedeComponent)) {
                     const centipede = hitEntity as Centipede
+                    this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
+                    this.hitSfx.playOnce()
                     if (!centipede.body.length) {
                         engine.removeEntity(centipede)
                     } else {
@@ -62,8 +86,6 @@ export class InputManager {
                     }
                     collisionScore += 100
                     this.gameState.spawnMushroom(centipede.x, centipede.z)
-
-                    this.hitSfx.playOnce()
                 }
 
                 // Hit Body

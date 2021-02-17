@@ -5,23 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sounds/death.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/game-start.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/hit-1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/hit-2.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/hit.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/monster-1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/monster-2.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Centipede.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Centipede.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MushroomComponent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/MushroomComponent.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/centipedeSpawner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/centipedeSpawner.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mushroom.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/gameSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/gameSettings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +50,7 @@
       <recent name="D:\dcl\models" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -91,23 +84,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1638" height="277" key="GridCell.Tab.0.bottom" timestamp="1613524381369">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1613524381369" />
-    <state width="1638" height="277" key="GridCell.Tab.0.center" timestamp="1613524381368">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1613524381368" />
-    <state width="1638" height="277" key="GridCell.Tab.0.left" timestamp="1613524381367">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1613524381367" />
-    <state width="1638" height="277" key="GridCell.Tab.0.right" timestamp="1613524381368">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1613524381368" />
   </component>
 </project>
