@@ -14,6 +14,8 @@
     "decentraland-ecs": "latest"
   },
   "dependencies": {
+    "@dcl/ui-scene-utils": "^1.7.1",
+    "@dcl/ui-utils": "^1.6.10",
     "decentraland-ecs-utils": "^1.5.2"
   }
 }

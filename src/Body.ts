@@ -1,7 +1,6 @@
 import {Centipede} from "./Centipede";
 import {BodyComponent} from "./BodyComponent"
-
-const SCALE = 0.2
+import gameSettings from "./constants/gameSettings";
 
 export class Body extends Entity {
     prevX: number
@@ -19,8 +18,8 @@ export class Body extends Entity {
         this.addComponent(new BodyComponent())
 
         this.addComponent(new Transform({
-            position: new Vector3(prevX, SCALE, prevZ),
-            scale: new Vector3(SCALE, SCALE, SCALE)
+            position: new Vector3(prevX, gameSettings.SCALE, prevZ),
+            scale: new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE)
         }))
         this.addComponent(new SphereShape())
 
@@ -41,10 +40,11 @@ export class Body extends Entity {
         this.prevZ = this.z;
         this.x = x;
         this.z = z
-        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, SCALE, this.prevZ), new Vector3(this.x, SCALE, this.z), this.centipede.t * 2)
+        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.centipede.t * (1 / gameSettings.MOVE_TIME))
         this._setSpeed()
     }
+
     draw() {
-        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, SCALE, this.prevZ), new Vector3(this.x, SCALE, this.z), this.centipede.t * 2)
+        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.centipede.t * (1 / gameSettings.MOVE_TIME))
     }
 }

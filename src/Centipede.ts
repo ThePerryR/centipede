@@ -1,19 +1,12 @@
 import {Body} from "./Body";
 import {CentipedeComponent} from "./CentipedeComponent";
+import {MushroomComponent} from "./MushroomComponent";
+import {Mushroom} from "./Mushroom";
+import utils from "../node_modules/decentraland-ecs-utils/index";
+import gameSettings from "./constants/gameSettings";
+import Direction from "./constants/Direction";
 
-enum Direction {
-    Up = 0,
-    Down,
-    Left,
-    Right
-}
-
-const SCALE = 0.2
-
-var upBoundary = 1;
-var downBoundary = 15;
-var leftBoundary = 1;
-var rightBoundary = 15;
+const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
 export class Centipede extends Entity {
     x: number
@@ -27,6 +20,7 @@ export class Centipede extends Entity {
     dx: number = 0
     dz: number = 0
     t: number = 0
+    collidingWith: Mushroom | null = null
 
     constructor(x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
         super();
@@ -46,8 +40,8 @@ export class Centipede extends Entity {
         this._setPositionFromDirection(1)
 
         this.addComponent(new Transform({
-            position: new Vector3(this.prevX, SCALE, this.prevZ),
-            scale: new Vector3(SCALE, SCALE, SCALE)
+            position: new Vector3(this.prevX, gameSettings.SCALE, this.prevZ),
+            scale: new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE)
         }))
 
         this.addComponent(new BoxShape())
@@ -66,6 +60,15 @@ export class Centipede extends Entity {
             const body = new Body(xBody + xDiff, this.z, xBody, zBody, this)
             this.body.push(body)
         }
+
+        const triggerShape = new utils.TriggerBoxShape(new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE), Vector3.Zero())
+        this.addComponent(new utils.TriggerComponent(
+            triggerShape,
+            {
+                layer: 2,
+                enableDebug: true
+            }
+        ))
     }
 
     _setPositionFromDirection(dt: number) {
@@ -74,16 +77,16 @@ export class Centipede extends Entity {
 
         switch (this.currentDirection) {
             case Direction.Down:
-                this.z += SCALE * 2;
+                this.z += gameSettings.SCALE * 2;
                 break;
             case Direction.Up:
-                this.z -= SCALE * 2;
+                this.z -= gameSettings.SCALE * 2;
                 break;
             case Direction.Right:
-                this.x += SCALE * 2;
+                this.x += gameSettings.SCALE * 2;
                 break;
             case Direction.Left:
-                this.x -= SCALE * 2;
+                this.x -= gameSettings.SCALE * 2;
                 break;
         }
     }
@@ -94,9 +97,9 @@ export class Centipede extends Entity {
     }
 
     _setVerticalDirection() {
-        if (this.previousDirection === Direction.Down && this.z >= downBoundary) {
+        if (this.previousDirection === Direction.Down && this.z >= gameSettings.DOWN_BOUNDARY) {
             this.currentDirection = Direction.Up;
-        } else if (this.previousDirection === Direction.Up && this.z <= upBoundary) {
+        } else if (this.previousDirection === Direction.Up && this.z <= gameSettings.UP_BOUNDARY) {
             this.currentDirection = Direction.Down;
         } else {
             this.currentDirection = this.previousDirection;
@@ -106,18 +109,18 @@ export class Centipede extends Entity {
     update(dt: number) {
         // if falling down or collision with poison mushroom
         this.t += dt
-        if (this.t >= 0.5) {
+        if (this.t >= gameSettings.MOVE_TIME) {
             this.t = 0
 
             // todo !this.fallingStraightDown
             if (true) {
                 if (this.currentDirection === Direction.Right) {
-                    if (this.x >= rightBoundary) {
+                    if (this.x >= gameSettings.RIGHT_BOUNDARY || this.collidingWith) {
                         this._setVerticalDirection()
                         this.previousDirection = Direction.Right
                     }
                 } else if (this.currentDirection === Direction.Left) {
-                    if (this.x <= leftBoundary) {
+                    if (this.x <= gameSettings.LEFT_BOUNDARY || this.collidingWith) {
                         this._setVerticalDirection();
                         this.previousDirection = Direction.Left;
                     }
@@ -130,9 +133,9 @@ export class Centipede extends Entity {
                     }
                     this.previousDirection = nowDirection;
 
-                    if (this.currentDirection === Direction.Right && this.x >= rightBoundary) {
+                    if (this.currentDirection === Direction.Right && this.x >= gameSettings.RIGHT_BOUNDARY) {
                         this.currentDirection = Direction.Left;
-                    } else if (this.currentDirection === Direction.Left && this.x <= leftBoundary) {
+                    } else if (this.currentDirection === Direction.Left && this.x <= gameSettings.LEFT_BOUNDARY) {
                         this.currentDirection = Direction.Right;
                     }
                 }
@@ -159,6 +162,6 @@ export class Centipede extends Entity {
     }
 
     draw() {
-        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, SCALE, this.prevZ), new Vector3(this.x, SCALE, this.z), this.t * 2)
+        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.t * (1 / gameSettings.MOVE_TIME))
     }
 }
