@@ -5,6 +5,7 @@ import {Mushroom} from "./Mushroom";
 import utils from "../node_modules/decentraland-ecs-utils/index";
 import gameSettings from "./constants/gameSettings";
 import Direction from "./constants/Direction";
+import {GameState} from "./GameState";
 
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
@@ -21,12 +22,14 @@ export class Centipede extends Entity {
     dz: number = 0
     t: number = 0
     collidingWith: Mushroom | null = null
+    gameState: GameState
 
-    constructor(x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
+    constructor(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
         super();
 
         engine.addEntity(this)
         this.addComponent(new CentipedeComponent())
+        this.gameState = gameState
         this.x = x // width / 2
         this.z = z // 0
         this.prevX = x
@@ -40,19 +43,23 @@ export class Centipede extends Entity {
 
         this.addComponent(new Transform({
             position: new Vector3(this.prevX, gameSettings.SCALE, this.prevZ),
-            scale: new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE)
+            scale: new Vector3(gameSettings.SCALE * 2, gameSettings.SCALE* 2, gameSettings.SCALE* 2)
         }))
 
         this.addComponent(new BoxShape())
+        this.getComponent(BoxShape).withCollisions = false
 
         this.initBodies()
 
-        const triggerShape = new utils.TriggerBoxShape(new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE), Vector3.Zero())
+        const triggerShape = new utils.TriggerBoxShape(new Vector3(gameSettings.SCALE * 2, 2, gameSettings.SCALE * 2), new Vector3(0, 1, 0))
         this.addComponent(new utils.TriggerComponent(
             triggerShape,
             {
                 layer: 2,
-                enableDebug: true
+                enableDebug: false,
+                onCameraEnter: () => {
+                    this.gameState.playerHit()
+                }
             }
         ))
     }

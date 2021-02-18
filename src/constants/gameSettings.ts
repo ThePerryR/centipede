@@ -10,6 +10,9 @@ const gameSettings = {
 
     SPIDER_CHANCE: 100,
     MUSHROOM_CHANCE_NON_PLAYER: 38,
-    MUSHROOM_CHANCE_PLAYER: 56
+    MUSHROOM_CHANCE_PLAYER: 56,
+
+    TRANSITION_TIME: 2.5,
+    SHOOT_DELAY: 0.4
 }
 export default gameSettings

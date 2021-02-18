@@ -10,11 +10,12 @@ function random(chance: number) {
 export class Mushroom extends Entity {
     mushroomSmall: Entity
     mushroomLarge: Entity
+
     constructor(x: number, z: number) {
         super()
         engine.addEntity(this)
-        const scale = new Vector3(0.4, 0.6, 0.4)
-        const position = new Vector3(x, 0.3, z)
+        const scale = new Vector3(0.2, 0.3, 0.2)
+        const position = new Vector3(x, 0.15, z)
         const rotation = Quaternion.Euler(0, random(360), 0)
         this.addComponent(new Transform({position, scale}))
         this.addComponent(new MushroomComponent())
@@ -24,14 +25,22 @@ export class Mushroom extends Entity {
         const meshSmall = new Entity()
         meshSmall.addComponent(new GLTFShape("models/mushroom-1.glb"))
         meshSmall.setParent(this)
-        meshSmall.addComponent(new Transform({rotation, scale: new Vector3(1, 0.5, 1), position: new Vector3(0, -0.15, 0)}))
+        meshSmall.addComponent(new Transform({
+            rotation,
+            scale: new Vector3(2, 1, 2),
+            position: new Vector3(0, -0.5, 0)
+        }))
         this.mushroomSmall = meshSmall
         engine.addEntity(meshSmall)
         meshSmall.getComponent(GLTFShape).visible = false
 
         const meshLarge = new Entity()
         meshLarge.addComponent(new GLTFShape("models/mushroom-2.glb"))
-        meshLarge.addComponent(new Transform({rotation, scale: new Vector3(1, 0.5, 1), position: new Vector3(0, -0.15, 0)}))
+        meshLarge.addComponent(new Transform({
+            rotation,
+            scale: new Vector3(2, 1, 2),
+            position: new Vector3(0, -0.5, 0)
+        }))
         meshLarge.setParent(this)
         this.mushroomLarge = meshLarge
 

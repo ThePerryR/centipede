@@ -22,10 +22,11 @@ const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
 function initialiseLevel() {
-    centipedeSpawner.spawn(8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
+    centipedeSpawner.spawn(gameState, 8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
 
     for (let i = 1; i < gameState.level && i < gameSettings.MAX_CENTIPEDES; i++) {
         centipedeSpawner.spawn(
+            gameState,
             ((i * 2) - 1) * (gameSettings.SCALE * 2),
             2 + gameSettings.SCALE * 2,
             0,
@@ -37,10 +38,16 @@ function initialiseLevel() {
 
 class GameManagerService implements ISystem {
     spider: Spider
+    transitionTime: number = 0
+
     constructor() {
         this.spider = new Spider()
     }
+
     update(dt: number): void {
+        if (gameState.state === State.NewGame) {
+
+        }
         if (gameState.state === State.Active) {
             if (!this.spider.alive && random(gameSettings.SPIDER_CHANCE) === 0) {
                 const x = Camera.instance.position.x < 8 ? gameSettings.RIGHT_BOUNDARY - 1 : 0;
@@ -103,22 +110,25 @@ class GameManagerService implements ISystem {
             }
         }
         if (gameState.state === State.LevelTransition) {
-            for (const entity of mushroomGroup.entities) {
-                const mushroom = entity as Mushroom
-                mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
-                mushroom.mushroomLarge.getComponent(GLTFShape).visible = true
-                entity.getComponent(MushroomComponent).health = 2
+            if (this.transitionTime === 0) {
+                for (const entity of mushroomGroup.entities) {
+                    const mushroom = entity as Mushroom
+                    mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
+                    mushroom.mushroomLarge.getComponent(GLTFShape).visible = true
+                    entity.getComponent(MushroomComponent).health = 2
+                }
             }
-
-            initialiseLevel()
-            gameState.state = State.Active
+            this.transitionTime += dt
+            if (this.transitionTime >= gameSettings.TRANSITION_TIME) {
+                initialiseLevel()
+                gameState.state = State.Active
+                this.transitionTime = 0
+            }
         }
     }
 }
 
-initialiseLevel()
-
 engine.addSystem(new GameManagerService())
 
-const sceneManager = new SceneManager()
+const sceneManager = new SceneManager(gameState)
 

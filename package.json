@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@dcl/ui-scene-utils": "^1.7.1",
-    "decentraland-ecs-utils": "^1.5.2"
+    "decentraland-ecs-utils": "^1.5.2",
+    "millify": "^3.5.0"
   },
   "bundleDependencies": [
     "@dcl/ui-scene-utils"

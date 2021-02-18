@@ -2,7 +2,8 @@ enum State {
     Active = 0,
     PlayerDeathTransition,
     LevelTransition,
-    GameOverTransition
+    GameOverTransition,
+    NewGame
 }
 
 export default State
