@@ -8,6 +8,8 @@ import Direction from "./constants/Direction";
 import {Mushroom} from "./Mushroom";
 import State from "./constants/State";
 import gameSettings from "./constants/gameSettings";
+import {SpiderComponent} from "./SpiderComponent";
+import {Spider} from "./Spider";
 
 class ShootingSystem implements ISystem {
     gameState: GameState
@@ -78,6 +80,15 @@ class ShootingSystem implements ISystem {
                             mushroom.mushroomLarge.getComponent(GLTFShape).visible = false
                         }
                         collisionScore += 10
+                    }
+
+                    // hit spider
+                    if (hitEntity.getComponentOrNull(SpiderComponent)) {
+                        const spider = hitEntity as Spider
+                        this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
+                        this.hitSfx.playOnce()
+                        engine.removeEntity(spider)
+                        collisionScore += 1000
                     }
 
                     // Hit head

@@ -4,6 +4,10 @@ import millify from '../node_modules/millify/dist/millify'
 import {Mushroom} from './Mushroom'
 import State from "./constants/State";
 import gameSettings from "./constants/gameSettings";
+import {Centipede} from "./Centipede";
+import {CentipedeComponent} from "./CentipedeComponent";
+import {SpiderComponent} from "./SpiderComponent";
+import {Spider} from "./Spider";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
@@ -16,6 +20,9 @@ function convertScore (score:number) {
     return score.toString()
 }
 
+const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
+const spiderGroup = engine.getComponentGroup(SpiderComponent)
+
 export class GameState {
     score = 0
     level = 1
@@ -25,6 +32,7 @@ export class GameState {
     counter: CornerLabel
     hearts: MediumIcon[]
     hideAvatarsEntity: Entity
+    deathSfx: AudioSource
 
     constructor() {
         this.generateMushroom()
@@ -45,6 +53,15 @@ export class GameState {
             position: new Vector3(8, 2, 8)
         }))
         this.hideAvatarsEntity = hideAvatarsEntity
+
+        const deathSoundEntity = new Entity()
+        const deathSoundClip = new AudioClip("sounds/death.wav")
+        this.deathSfx = new AudioSource(deathSoundClip)
+        this.deathSfx.volume = 1
+        deathSoundEntity.addComponent(this.deathSfx)
+        engine.addEntity(deathSoundEntity)
+        deathSoundEntity.setParent(Attachable.AVATAR)
+        // this.squishSfxEntity = deathSoundEntity
     }
 
 
@@ -80,6 +97,7 @@ export class GameState {
         if (this.lives > 0) {
             this.lives--
         }
+        this.hearts[this.lives].hide()
 
         if (this.lives === 0) {
             this.state = State.GameOverTransition
@@ -87,7 +105,26 @@ export class GameState {
             // hide the player
             engine.addEntity(this.hideAvatarsEntity)
             // play the death sound
+            this.deathSfx.playOnce()
+            // destroy centipedes
+            this.reset()
             this.state = State.PlayerDeathTransition
+        }
+    }
+
+    reset () {
+        for (const entity of spiderGroup.entities) {
+            const spider = entity as Spider
+            spider.spiderSfx.playing = false
+            engine.removeEntity(spider)
+        }
+
+        for (const entity of centipedeGroup.entities) {
+            const centipede = entity as Centipede
+            for (const body of centipede.body) {
+                engine.removeEntity(body)
+            }
+            engine.removeEntity(entity)
         }
     }
 }

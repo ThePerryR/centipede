@@ -47,7 +47,6 @@ export class Centipede extends Entity {
         }))
 
         this.addComponent(new BoxShape())
-        this.getComponent(BoxShape).withCollisions = false
 
         this.initBodies()
 

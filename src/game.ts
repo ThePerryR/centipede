@@ -16,7 +16,7 @@ function random(chance: number) {
 }
 
 const gameState = new GameState()
-new InputManager(gameState)
+const inputManager = new InputManager(gameState)
 
 const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
@@ -41,7 +41,7 @@ class GameManagerService implements ISystem {
     transitionTime: number = 0
 
     constructor() {
-        this.spider = new Spider()
+        this.spider = new Spider(gameState)
     }
 
     update(dt: number): void {
@@ -50,6 +50,7 @@ class GameManagerService implements ISystem {
         }
         if (gameState.state === State.Active) {
             if (!this.spider.alive && random(gameSettings.SPIDER_CHANCE) === 0) {
+                this.spider.spiderSfx.playing = true
                 const x = Camera.instance.position.x < 8 ? gameSettings.RIGHT_BOUNDARY - 1 : 0;
                 const z = 8 + random(5);
                 this.spider.x = x
@@ -78,26 +79,7 @@ class GameManagerService implements ISystem {
                 //create(x, y);
             }
             if (this.spider.alive) {
-                let changeX = true
-                if (this.spider.z >= this.spider.maxZ) {
-                    this.spider.dz = -0.25;
-                } else if (this.spider.z <= this.spider.minZ) {
-                    this.spider.dz = 0.25;
-                } else {
-                    changeX = false;
-                }
-                if (changeX) {
-                    if (Math.floor(Math.random() * 4) === 0) {
-                        this.spider.dx = 0;
-                    } else {
-                        this.spider.dx = this.spider.startDx;
-                    }
-                }
-                this.spider.prevZ = this.spider.z;
-                this.spider.prevX = this.spider.x;
-
-                this.spider.x += (4 * this.spider.dx);
-                this.spider.z += (4 * this.spider.dz);
+                this.spider.update(dt)
             }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             if (!aliveCentipedes.length) {
@@ -123,6 +105,12 @@ class GameManagerService implements ISystem {
                 initialiseLevel()
                 gameState.state = State.Active
                 this.transitionTime = 0
+            }
+        }
+        if (gameState.state === State.PlayerDeathTransition) {
+            if (inputManager.shootingSystem.shooting) {
+                sceneManager.startSfx.playOnce()
+                gameState.state = State.LevelTransition
             }
         }
     }
