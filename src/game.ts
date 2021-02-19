@@ -10,6 +10,7 @@ import gameSettings from "./constants/gameSettings";
 import {centipedeSpawner} from "./centipedeSpawner";
 import {Mushroom} from "./Mushroom";
 import {Spider} from "./Spider";
+import {Flea} from "./Flea";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
@@ -39,17 +40,33 @@ function initialiseLevel() {
 
 class GameManagerService implements ISystem {
     spider: Spider
+    flea: Flea
     transitionTime: number = 0
 
     constructor() {
         this.spider = new Spider(gameState)
+        this.flea = new Flea(gameState)
     }
 
     update(dt: number): void {
-        if (gameState.state === State.NewGame) {
 
+        if (gameState.state === State.NewGame) {
         }
         if (gameState.state === State.Active) {
+            const mushrooms = [...mushroomGroup.entities]
+            if (!this.flea.alive && mushrooms.length >= gameSettings.MIN_MUSHROOMS_BEFORE_FLEA && random(gameSettings.FLEA_CHANCE) === 0) {
+                this.flea.fleaSfx.playing = true
+                const x = random(gameSettings.RIGHT_BOUNDARY - 1) + 1
+                const z = 0
+                this.flea.x = x
+                this.flea.prevX = x
+                this.flea.z = z
+                this.flea.prevZ = 0
+                this.flea.dz = 0.5
+                this.flea.getComponent(Transform).position.x = x
+                this.flea.getComponent(Transform).position.z = z
+                engine.addEntity(this.flea)
+            }
             if (!this.spider.alive && random(gameSettings.SPIDER_CHANCE) === 0) {
                 this.spider.spiderSfx.playing = true
                 const x = Camera.instance.position.x < 8 ? gameSettings.RIGHT_BOUNDARY - 1 : 0;
@@ -58,26 +75,14 @@ class GameManagerService implements ISystem {
                 this.spider.z = z
                 this.spider.dx = x === 0 ? 0.25 : -0.25
                 this.spider.dz = -0.25
-                this.spider.maxZ = gameSettings.DOWN_BOUNDARY - 1
+                this.spider.maxZ = gameSettings.DOWN_BOUNDARY
                 this.spider.minZ = (gameSettings.DOWN_BOUNDARY - 5) + 1
                 this.spider.startDx = this.spider.dx
                 this.spider.prevX = x - 4 * this.spider.dx
                 this.spider.prevZ = z - 4 * this.spider.dz
-                /*
-                prevX: -1,
-                dx: x === 0 ? 0.25 : -0.25,
-                maxY: globalSettings.gameBoardHeight -1,
-                minY: (globalSettings.gameBoardHeight - globalSettings.playerAreaHeight) + 1,
-                dy: -0.25prevX: -1,
-                dx: x === 0 ? 0.25 : -0.25,
-                maxY: globalSettings.gameBoardHeight -1,
-                minY: (globalSettings.gameBoardHeight - globalSettings.playerAreaHeight) + 1,
-                dy: -0.25
-                 */
                 this.spider.getComponent(Transform).position.x = x
                 this.spider.getComponent(Transform).position.z = z
                 engine.addEntity(this.spider)
-                //create(x, y);
             }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             if (!aliveCentipedes.length) {
@@ -88,6 +93,9 @@ class GameManagerService implements ISystem {
         if (gameState.state === State.Active || gameState.state === State.LevelTransition) {
             if (this.spider.alive) {
                 this.spider.update(dt)
+            }
+            if (this.flea.alive) {
+                this.flea.update(dt)
             }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             for (const centipede of aliveCentipedes) {

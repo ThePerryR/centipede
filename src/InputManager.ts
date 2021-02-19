@@ -10,6 +10,8 @@ import State from "./constants/State";
 import gameSettings from "./constants/gameSettings";
 import {SpiderComponent} from "./SpiderComponent";
 import {Spider} from "./Spider";
+import {FleaComponent} from "./FleaComponent";
+import {Flea} from "./Flea";
 
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
@@ -95,6 +97,15 @@ class ShootingSystem implements ISystem {
                         collisionScore += 1000
                     }
 
+                    // hit spider
+                    if (hitEntity.getComponentOrNull(FleaComponent)) {
+                        const flea = hitEntity as Flea
+                        this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
+                        this.hitSfx.playOnce()
+                        engine.removeEntity(flea)
+                        collisionScore += 500
+                    }
+
                     // Hit head
                     if (hitEntity.getComponentOrNull(CentipedeComponent)) {
                         const centipede = hitEntity as Centipede
@@ -140,6 +151,11 @@ class ShootingSystem implements ISystem {
                         }
                         collisionScore += 100
                         this.hitSfx.playOnce()
+                    }
+
+                    if (hitEntity.getComponentOrNull(CentipedeComponent) || hitEntity.getComponentOrNull(BodyComponent)) {
+                        const hitPosition = hitEntity.getComponent(Transform).position
+                        this.gameState.spawnMushroom(hitPosition.x, hitPosition.z)
                     }
 
                     if (collisionScore) {

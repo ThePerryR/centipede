@@ -1,4 +1,4 @@
-import {CornerLabel, MediumIcon} from '@dcl/ui-scene-utils'
+import {CornerLabel, SmallIcon} from '@dcl/ui-scene-utils'
 import millify from '../node_modules/millify/dist/millify'
 
 import {Mushroom} from './Mushroom'
@@ -9,6 +9,8 @@ import {CentipedeComponent} from "./CentipedeComponent";
 import {SpiderComponent} from "./SpiderComponent";
 import {Spider} from "./Spider";
 import {SceneManager} from "./SceneManager";
+import {FleaComponent} from "./FleaComponent";
+import {Flea} from "./Flea";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
@@ -23,6 +25,7 @@ function convertScore(score: number) {
 
 const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const spiderGroup = engine.getComponentGroup(SpiderComponent)
+const fleaGroup = engine.getComponentGroup(FleaComponent)
 
 export class GameState {
     score = 0
@@ -31,20 +34,33 @@ export class GameState {
     state = State.NewGame
     sceneManager: SceneManager
 
-    counter: CornerLabel
-    hearts: MediumIcon[]
+    counter: UIText
+    hearts: SmallIcon[]
     hideAvatarsEntity: Entity
     deathSfx: AudioSource
 
     constructor() {
         this.sceneManager = new SceneManager(this)
         this.generateMushroom()
-        this.counter = new CornerLabel(convertScore(this.score), 0, 6, Color4.Blue(), 40, false)
+        // Create screenspace component
+        const canvas = new UICanvas()
+        this.counter = new UIText(canvas)
+        this.counter.hAlign = 'right'
+        this.counter.vAlign = 'top'
+        this.counter.positionX = -32
+        this.counter.hTextAlign = 'right'
+        this.counter.color = Color4.White()
+        this.counter.fontSize = 32
+        this.counter.outlineColor = Color4.Black()
+        this.counter.outlineWidth = 0.2
+        this.counter.opacity = 0.8
+        this.counter.value = '0'
+        // this.counter = new CornerLabel(convertScore(this.score), 0, 6, Color4.Blue(), 40, false)
         //this.counter.hide()
         this.hearts = [
-            new MediumIcon('images/heart.png', -90, 0),
-            new MediumIcon('images/heart.png', -162, 0),
-            new MediumIcon('images/heart.png', -234, 0),
+            new SmallIcon('images/heart.png', -32, 0),
+            new SmallIcon('images/heart.png', -64, 0),
+            new SmallIcon('images/heart.png', -96, 0),
         ]
 
         const hideAvatarsEntity = new Entity()
@@ -70,7 +86,7 @@ export class GameState {
 
     incrementScore(score: number) {
         this.score += score
-        this.counter.set(convertScore(this.score))
+        this.counter.value = this.score.toString()
     }
 
     generateMushroom() {
@@ -91,7 +107,7 @@ export class GameState {
         this.score = 0
         this.level = 1
         this.lives = 3
-        this.counter.set(convertScore(this.score))
+        this.counter.value = this.score.toString()
         for (const heart of this.hearts) {
             heart.show()
         }
@@ -128,16 +144,30 @@ export class GameState {
         for (const entity of spiders) {
             const spider = entity as Spider
             spider.spiderSfx.playing = false
-            engine.removeEntity(spider)
+            if (spider.alive) {
+                engine.removeEntity(spider)
+            }
+        }
+        const fleas = [...fleaGroup.entities]
+        for (const entity of fleas) {
+            const flea = entity as Flea
+            flea.fleaSfx.playing = false
+            if (flea.alive) {
+                engine.removeEntity(flea)
+            }
         }
 
         const entities = [...centipedeGroup.entities]
         for (const entity of entities) {
             const centipede = entity as Centipede
             for (const body of centipede.body) {
-                engine.removeEntity(body)
+                if (body.alive) {
+                    engine.removeEntity(body)
+                }
             }
-            engine.removeEntity(centipede)
+            if (centipede.alive) {
+                engine.removeEntity(centipede)
+            }
         }
     }
 }

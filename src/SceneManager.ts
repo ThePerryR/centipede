@@ -56,10 +56,20 @@ export class SceneManager {
         }))
         wand.addComponent(new CylinderShape())
         const material = new Material()
-        material.albedoColor = new Color3(0.74, 0.08, 0.2)
+        material.albedoColor = new Color3(0.408, 0.259, 0.2)
         material.metallic = 0.2
         material.roughness = 0.6
         wand.addComponent(material)
+        const handle = new Entity()
+        handle.setParent(wand)
+        handle.addComponent(new CylinderShape())
+        handle.getComponent(CylinderShape).withCollisions = false
+        handle.getComponent(CylinderShape).isPointerBlocker = false
+        handle.addComponent(new Transform({
+            position: new Vector3(0, 0.8, 0),
+            scale: new Vector3(1.24, 0.3, 1.24)
+        }))
+        handle.addComponent(material)
         return wand
     }
 
@@ -116,7 +126,7 @@ export class SceneManager {
         const startSoundEntity = new Entity()
         const startSoundClip = new AudioClip("sounds/game-start.wav")
         const startSfx = new AudioSource(startSoundClip)
-        startSfx.volume = 1
+            startSfx.volume = 1
         startSoundEntity.addComponent(startSfx)
         engine.addEntity(startSoundEntity)
         startSoundEntity.setParent(stump)

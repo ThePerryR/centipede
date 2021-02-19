@@ -71,8 +71,8 @@ export class Centipede extends Entity {
 
 
         const material = new Material()
-        material.albedoColor = new Color3(0.012, 0.984, 0.059)
-        material.metallic = 0.4
+        material.albedoColor = new Color3(0.208, 0.407, 0.216)
+        material.metallic = 0
         material.roughness = 0.7
         this.addComponent(material)
     }
