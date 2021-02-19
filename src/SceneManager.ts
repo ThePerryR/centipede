@@ -124,7 +124,7 @@ export class SceneManager {
         const triggerBox = new utils.TriggerBoxShape(new Vector3(2, 2, 2), new Vector3(0, 1, 0))
         stump.addComponent(new utils.TriggerComponent(triggerBox, {
             onCameraEnter: () => {
-                if (this.gameState.state === State.NewGame) {
+                if (this.gameState.state === State.NewGame || this.gameState.state === State.GameOverTransition) {
                     this.startGamePrompt.show()
                 }
             },

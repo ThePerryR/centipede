@@ -3,16 +3,17 @@ const gameSettings = {
     MAX_CENTIPEDES: 9,
     SCALE: 0.2,
     MOVE_TIME: 0.15,
+    SPIDER_MOVE_TIME: 0.2,
     UP_BOUNDARY: 1,
     DOWN_BOUNDARY: 15,
     LEFT_BOUNDARY: 1,
     RIGHT_BOUNDARY: 15,
 
-    SPIDER_CHANCE: 160,
+    SPIDER_CHANCE: 180,
     MUSHROOM_CHANCE_NON_PLAYER: 38,
     MUSHROOM_CHANCE_PLAYER: 56,
 
     TRANSITION_TIME: 2.5,
-    SHOOT_DELAY: 0.4
+    SHOOT_DELAY: 0.3
 }
 export default gameSettings

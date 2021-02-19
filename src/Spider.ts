@@ -16,6 +16,7 @@ export class Spider extends Entity {
     t: number = 0
     spiderSfx: AudioSource
     gameState: GameState
+    model: Entity
 
     constructor(gameState: GameState) {
         super();
@@ -24,8 +25,9 @@ export class Spider extends Entity {
             position: new Vector3(0, 1, 0),
             scale: new Vector3(1, 0.5, 0.5)
         }))
-        this.addComponent(new BoxShape())
-        this.getComponent(BoxShape).withCollisions = false
+        const targetBox = new BoxShape()
+        targetBox.visible = false
+        this.addComponent(targetBox)
         this.addComponent(new SpiderComponent())
 
         const spiderSoundEntity = new Entity()
@@ -49,11 +51,19 @@ export class Spider extends Entity {
                 }
             }
         ))
+
+        const model = new Entity()
+        model.addComponent(new GLTFShape("models/HWN20_Spider_03.glb"))
+        model.addComponent(new Transform({scale: new Vector3(10, 10, 10)}))
+        engine.addEntity(model)
+        model.setParent(this)
+        this.model = model
     }
 
     update (dt: number) {
         this.t += dt
-        if (this.t >= gameSettings.MOVE_TIME) {
+        if (this.t >= gameSettings.SPIDER_MOVE_TIME) {
+            this.getComponent(Transform).lookAt(Camera.instance.position)
             this.t = 0
 
             if (this.x < -1 || this.x >= gameSettings.RIGHT_BOUNDARY) {
@@ -88,6 +98,6 @@ export class Spider extends Entity {
     }
 
     draw() {
-        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.t * (1 / (gameSettings.MOVE_TIME)))
+        this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.t * (1 / (gameSettings.SPIDER_MOVE_TIME)))
     }
 }

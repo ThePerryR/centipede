@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/SpiderComponent.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Body.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Centipede.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Centipede.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mushroom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mushroom.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Spider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spider.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/gameSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/gameSettings.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
@@ -35,22 +37,23 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/New_scene" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/sounds" />
-      <recent name="D:\dcl\models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\dcl" />
       <recent name="D:\dcl\models" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\dcl\models" />
+      <recent name="D:\dcl\models\FloorBaseGrass_01" />
+      <recent name="$PROJECT_DIR$/sounds" />
+    </key>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -84,27 +87,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1638" height="277" key="GridCell.Tab.0.bottom" timestamp="1613659970539">
-      <screen x="0" y="25" width="2560" height="1415" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.bottom/2560.25.2560.1415/-1680.836.1680.1025/0.25.2560.1415@0.25.2560.1415" timestamp="1613659970539" />
-    <state width="1638" height="277" key="GridCell.Tab.0.center" timestamp="1613659970537">
-      <screen x="0" y="25" width="2560" height="1415" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.center/2560.25.2560.1415/-1680.836.1680.1025/0.25.2560.1415@0.25.2560.1415" timestamp="1613659970537" />
-    <state width="1638" height="277" key="GridCell.Tab.0.left" timestamp="1613659970536">
-      <screen x="0" y="25" width="2560" height="1415" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.left/2560.25.2560.1415/-1680.836.1680.1025/0.25.2560.1415@0.25.2560.1415" timestamp="1613659970536" />
-    <state width="1638" height="277" key="GridCell.Tab.0.right" timestamp="1613659970538">
-      <screen x="0" y="25" width="2560" height="1415" />
-    </state>
-    <state width="1638" height="277" key="GridCell.Tab.0.right/2560.25.2560.1415/-1680.836.1680.1025/0.25.2560.1415@0.25.2560.1415" timestamp="1613659970538" />
-    <state x="540" y="294" width="599" height="486" key="find.popup" timestamp="1613617418874">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="540" y="294" width="599" height="486" key="find.popup/0.25.1680.1025@0.25.1680.1025" timestamp="1613617418874" />
   </component>
 </project>

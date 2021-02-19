@@ -16,7 +16,7 @@ export class Centipede extends Entity {
     prevZ: number
     bodyLength: number
     previousDirection: Direction
-    currentDirection: Direction
+    currentDirection: Direction.Left | Direction.Right | Direction.Up | Direction.Down
     body: Body[] = []
     dx: number = 0
     dz: number = 0
@@ -43,10 +43,10 @@ export class Centipede extends Entity {
 
         this.addComponent(new Transform({
             position: new Vector3(this.prevX, gameSettings.SCALE, this.prevZ),
-            scale: new Vector3(gameSettings.SCALE * 2, gameSettings.SCALE* 2, gameSettings.SCALE* 2)
+            scale: new Vector3(gameSettings.SCALE, gameSettings.SCALE, gameSettings.SCALE)
         }))
 
-        this.addComponent(new BoxShape())
+        this.addComponent(new SphereShape())
 
         this.initBodies()
 
@@ -61,9 +61,36 @@ export class Centipede extends Entity {
                 }
             }
         ))
+
+        const eyeMaterial = new Material()
+        eyeMaterial.albedoColor = new Color3(1, 0, 0)
+        eyeMaterial.metallic = 0.1
+        eyeMaterial.roughness = 0.7
+        this.addEye(eyeMaterial, true)
+        this.addEye(eyeMaterial, false)
+
+
+        const material = new Material()
+        material.albedoColor = new Color3(0.012, 0.984, 0.059)
+        material.metallic = 0.4
+        material.roughness = 0.7
+        this.addComponent(material)
     }
 
-    initBodies () {
+    addEye(material: Material, left: Boolean) {
+        const eye = new Entity()
+        eye.addComponent(new Transform({
+            position: new Vector3(gameSettings.SCALE * 4.6, 0.2, (gameSettings.SCALE * 3) * (left ? -1 : 1)),
+            scale: new Vector3(gameSettings.SCALE * 1.2, gameSettings.SCALE * 1.2, gameSettings.SCALE * 1.2)
+        }))
+        eye.addComponent(new SphereShape())
+        eye.setParent(this)
+        eye.addComponent(material)
+        eye.getComponent(SphereShape).withCollisions = false
+        eye.getComponent(SphereShape).isPointerBlocker = false
+    }
+
+    initBodies() {
         let xBody = this.x
         let zBody = this.z
 
@@ -105,7 +132,7 @@ export class Centipede extends Entity {
         this.dz = (this.z - this.prevZ)
     }
 
-    _setVerticalDirection() {
+    setVerticalDirection() {
         if (this.previousDirection === Direction.Down && this.z >= gameSettings.DOWN_BOUNDARY) {
             this.currentDirection = Direction.Up;
         } else if (this.previousDirection === Direction.Up && this.z <= gameSettings.UP_BOUNDARY) {
@@ -125,12 +152,12 @@ export class Centipede extends Entity {
             if (true) {
                 if (this.currentDirection === Direction.Right) {
                     if (this.x >= gameSettings.RIGHT_BOUNDARY || this.collidingWith) {
-                        this._setVerticalDirection()
+                        this.setVerticalDirection()
                         this.previousDirection = Direction.Right
                     }
                 } else if (this.currentDirection === Direction.Left) {
                     if (this.x <= gameSettings.LEFT_BOUNDARY || this.collidingWith) {
-                        this._setVerticalDirection();
+                        this.setVerticalDirection();
                         this.previousDirection = Direction.Left;
                     }
                 } else {
@@ -171,6 +198,21 @@ export class Centipede extends Entity {
     }
 
     draw() {
+
+        switch (this.currentDirection) {
+            case Direction.Left:
+                this.getComponent(Transform).rotation = Quaternion.Euler(0, 180, 0)
+                break
+            case Direction.Right:
+                this.getComponent(Transform).rotation = Quaternion.Euler(0, 0, 0)
+                break
+            case Direction.Up:
+                this.getComponent(Transform).rotation = Quaternion.Euler(0, 90, 0)
+                break
+            case Direction.Down:
+                this.getComponent(Transform).rotation = Quaternion.Euler(0, 270, 0)
+                break
+        }
         this.getComponent(Transform).position = Vector3.Lerp(new Vector3(this.prevX, gameSettings.SCALE, this.prevZ), new Vector3(this.x, gameSettings.SCALE, this.z), this.t * (1 / gameSettings.MOVE_TIME))
     }
 }

@@ -11,6 +11,8 @@ import gameSettings from "./constants/gameSettings";
 import {SpiderComponent} from "./SpiderComponent";
 import {Spider} from "./Spider";
 
+const mushroomGroup = engine.getComponentGroup(MushroomComponent)
+
 class ShootingSystem implements ISystem {
     gameState: GameState
     shootSfx: AudioSource
@@ -20,6 +22,7 @@ class ShootingSystem implements ISystem {
     squishSfxEntity: Entity
     shooting: Boolean = false
     cooldown: number = 0
+
     constructor(gameState: GameState) {
         this.gameState = gameState
 
@@ -50,12 +53,13 @@ class ShootingSystem implements ISystem {
         engine.addEntity(squishSoundEntity)
         this.squishSfxEntity = squishSoundEntity
     }
+
     update(dt: number) {
         if (this.cooldown) {
             this.cooldown -= dt
             if (this.cooldown < 0) this.cooldown = 0
         }
-        if (this.gameState.state === State.Active && this.cooldown === 0 && this.shooting) {
+        if ((this.gameState.state === State.Active || this.gameState.state === State.LevelTransition) && this.cooldown === 0 && this.shooting) {
             this.cooldown = gameSettings.SHOOT_DELAY
             this.shootSfx.playOnce()
 
@@ -105,7 +109,6 @@ class ShootingSystem implements ISystem {
                             centipede.body.splice(0, 1)
                         }
                         collisionScore += 100
-                        this.gameState.spawnMushroom(centipede.x, centipede.z)
                     }
 
                     // Hit Body
@@ -136,7 +139,6 @@ class ShootingSystem implements ISystem {
                             engine.removeEntity(body.centipede.body.pop() as Entity)
                         }
                         collisionScore += 100
-                        this.gameState.spawnMushroom(body.prevX, body.prevZ)
                         this.hitSfx.playOnce()
                     }
 

@@ -1,4 +1,4 @@
-import { CornerLabel, MediumIcon } from '@dcl/ui-scene-utils'
+import {CornerLabel, MediumIcon} from '@dcl/ui-scene-utils'
 import millify from '../node_modules/millify/dist/millify'
 
 import {Mushroom} from './Mushroom'
@@ -8,14 +8,15 @@ import {Centipede} from "./Centipede";
 import {CentipedeComponent} from "./CentipedeComponent";
 import {SpiderComponent} from "./SpiderComponent";
 import {Spider} from "./Spider";
+import {SceneManager} from "./SceneManager";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
 }
 
-function convertScore (score:number) {
+function convertScore(score: number) {
     if (score > 1000) {
-        return `${(score/1000).toFixed(1)}k`
+        return `${(score / 1000).toFixed(1)}k`
     }
     return score.toString()
 }
@@ -28,6 +29,7 @@ export class GameState {
     level = 1
     lives = 3
     state = State.NewGame
+    sceneManager: SceneManager
 
     counter: CornerLabel
     hearts: MediumIcon[]
@@ -35,6 +37,7 @@ export class GameState {
     deathSfx: AudioSource
 
     constructor() {
+        this.sceneManager = new SceneManager(this)
         this.generateMushroom()
         this.counter = new CornerLabel(convertScore(this.score), 0, 6, Color4.Blue(), 40, false)
         //this.counter.hide()
@@ -46,7 +49,7 @@ export class GameState {
 
         const hideAvatarsEntity = new Entity()
         hideAvatarsEntity.addComponent(new AvatarModifierArea({
-            area: { box: new Vector3(16, 4, 16) },
+            area: {box: new Vector3(16, 4, 16)},
             modifiers: [AvatarModifiers.HIDE_AVATARS]
         }))
         hideAvatarsEntity.addComponent(new Transform({
@@ -79,13 +82,20 @@ export class GameState {
             }
         }
     }
+
     spawnMushroom(x: number, z: number) {
         new Mushroom(x, z)
     }
 
-    startGame () {
+    startGame() {
+        this.score = 0
+        this.level = 1
+        this.lives = 3
+        this.counter.set(convertScore(this.score))
+        for (const heart of this.hearts) {
+            heart.show()
+        }
         this.state = State.LevelTransition
-        this.counter.show()
     }
 
     startLevelTransition() {
@@ -93,38 +103,41 @@ export class GameState {
         this.level++
     }
 
-    playerHit () {
+    playerHit() {
         if (this.lives > 0) {
             this.lives--
         }
         this.hearts[this.lives].hide()
 
+        // hide the player
+        engine.addEntity(this.hideAvatarsEntity)
+        // play the death sound
+        this.deathSfx.playOnce()
+        // destroy centipedes
+        this.reset()
         if (this.lives === 0) {
+            engine.addEntity(this.sceneManager.wand)
             this.state = State.GameOverTransition
         } else {
-            // hide the player
-            engine.addEntity(this.hideAvatarsEntity)
-            // play the death sound
-            this.deathSfx.playOnce()
-            // destroy centipedes
-            this.reset()
             this.state = State.PlayerDeathTransition
         }
     }
 
-    reset () {
-        for (const entity of spiderGroup.entities) {
+    reset() {
+        const spiders = [...spiderGroup.entities]
+        for (const entity of spiders) {
             const spider = entity as Spider
             spider.spiderSfx.playing = false
             engine.removeEntity(spider)
         }
 
-        for (const entity of centipedeGroup.entities) {
+        const entities = [...centipedeGroup.entities]
+        for (const entity of entities) {
             const centipede = entity as Centipede
             for (const body of centipede.body) {
                 engine.removeEntity(body)
             }
-            engine.removeEntity(entity)
+            engine.removeEntity(centipede)
         }
     }
 }

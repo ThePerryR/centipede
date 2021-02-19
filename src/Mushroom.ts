@@ -19,8 +19,9 @@ export class Mushroom extends Entity {
         const rotation = Quaternion.Euler(0, random(360), 0)
         this.addComponent(new Transform({position, scale}))
         this.addComponent(new MushroomComponent())
-        this.addComponent(new BoxShape())
-        this.getComponent(BoxShape).visible = false
+        const targetShape = new BoxShape()
+        targetShape.visible = false
+        this.addComponent(targetShape)
 
         const meshSmall = new Entity()
         meshSmall.addComponent(new GLTFShape("models/mushroom-1.glb"))

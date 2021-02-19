@@ -28,6 +28,12 @@ export class Body extends Entity {
         this.x = x
         this.z = z
         this._setSpeed()
+
+        const material = new Material()
+        material.albedoColor = new Color3(0.012, 0.984, 0.059)
+        material.metallic = 0.1
+        material.roughness = 0.7
+        this.addComponent(material)
     }
 
     _setSpeed() {

@@ -22,6 +22,7 @@ const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
 function initialiseLevel() {
+    engine.removeEntity(gameState.hideAvatarsEntity)
     centipedeSpawner.spawn(gameState, 8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
 
     for (let i = 1; i < gameState.level && i < gameSettings.MAX_CENTIPEDES; i++) {
@@ -78,14 +79,17 @@ class GameManagerService implements ISystem {
                 engine.addEntity(this.spider)
                 //create(x, y);
             }
-            if (this.spider.alive) {
-                this.spider.update(dt)
-            }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             if (!aliveCentipedes.length) {
                 gameState.startLevelTransition()
                 return
             }
+        }
+        if (gameState.state === State.Active || gameState.state === State.LevelTransition) {
+            if (this.spider.alive) {
+                this.spider.update(dt)
+            }
+            const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             for (const centipede of aliveCentipedes) {
                 const c = centipede as Centipede
                 c.update(dt)
@@ -118,5 +122,5 @@ class GameManagerService implements ISystem {
 
 engine.addSystem(new GameManagerService())
 
-const sceneManager = new SceneManager(gameState)
+const sceneManager = gameState.sceneManager
 
