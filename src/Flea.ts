@@ -21,11 +21,11 @@ export class Flea extends Entity {
         super();
         this.gameState = gameState
         this.addComponent(new Transform({
-            position: new Vector3(0, 1, 0),
-            scale: new Vector3(1, 0.5, 0.5)
+            position: new Vector3(0, 0, 0),
+            scale: new Vector3(0.4, 0.4, 0.4)
         }))
         const targetBox = new BoxShape()
-        targetBox.visible = true
+        targetBox.visible = false
         this.addComponent(targetBox)
         this.addComponent(new FleaComponent())
 
@@ -39,7 +39,7 @@ export class Flea extends Entity {
         fleaSoundEntity.setParent(this)
         // this.squishSfxEntity = fleaSoundEntity
 
-        const triggerShape = new utils.TriggerBoxShape(new Vector3(1, 2,  0.5), new Vector3(0, 1, 0))
+        const triggerShape = new utils.TriggerBoxShape(new Vector3(0.5, 2,  0.5), new Vector3(0, 1, 0))
         this.addComponent(new utils.TriggerComponent(
             triggerShape,
             {
@@ -50,6 +50,16 @@ export class Flea extends Entity {
                 }
             }
         ))
+
+
+        const model = new Entity()
+        model.addComponent(new GLTFShape("models/flea.glb"))
+        model.addComponent(new Transform({
+            scale: new Vector3(0.2, 0.2, 0.2),
+            position: new Vector3(0, -0.5, 0)
+        }))
+        engine.addEntity(model)
+        model.setParent(this)
     }
 
     update (dt: number) {

@@ -11,6 +11,7 @@ import {centipedeSpawner} from "./centipedeSpawner";
 import {Mushroom} from "./Mushroom";
 import {Spider} from "./Spider";
 import {Flea} from "./Flea";
+import {Snail} from "./Snail";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
@@ -22,9 +23,11 @@ const inputManager = new InputManager(gameState)
 const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
+let firstCentipede: Centipede | null
+
 function initialiseLevel() {
     engine.removeEntity(gameState.hideAvatarsEntity)
-    centipedeSpawner.spawn(gameState, 8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
+    firstCentipede = centipedeSpawner.spawn(gameState, 8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
 
     for (let i = 1; i < gameState.level && i < gameSettings.MAX_CENTIPEDES; i++) {
         centipedeSpawner.spawn(
@@ -41,11 +44,13 @@ function initialiseLevel() {
 class GameManagerService implements ISystem {
     spider: Spider
     flea: Flea
+    snail: Snail
     transitionTime: number = 0
 
     constructor() {
         this.spider = new Spider(gameState)
         this.flea = new Flea(gameState)
+        this.snail = new Snail(gameState)
     }
 
     update(dt: number): void {
@@ -61,11 +66,23 @@ class GameManagerService implements ISystem {
                 this.flea.x = x
                 this.flea.prevX = x
                 this.flea.z = z
-                this.flea.prevZ = 0
+                this.flea.prevZ = z
                 this.flea.dz = 0.5
                 this.flea.getComponent(Transform).position.x = x
                 this.flea.getComponent(Transform).position.z = z
                 engine.addEntity(this.flea)
+            }
+            if (!this.snail.alive && random(gameSettings.SNAIL_CHANCE) === 0) {
+                this.snail.snailSfx.playing = true
+                const z = random(gameSettings.DOWN_BOUNDARY - 8) + 2
+                const x = 15
+                this.snail.x = x
+                this.snail.prevX = x
+                this.snail.z = z
+                this.snail.prevZ = z
+                this.snail.getComponent(Transform).position.x = this.snail.x
+                this.snail.getComponent(Transform).position.z = z
+                engine.addEntity(this.snail)
             }
             if (!this.spider.alive && random(gameSettings.SPIDER_CHANCE) === 0) {
                 this.spider.spiderSfx.playing = true
@@ -97,6 +114,9 @@ class GameManagerService implements ISystem {
             if (this.flea.alive) {
                 this.flea.update(dt)
             }
+            if (this.snail.alive) {
+                this.snail.update(dt)
+            }
             const aliveCentipedes = centipedeGroup.entities.filter(entity => entity.alive)
             for (const centipede of aliveCentipedes) {
                 const c = centipede as Centipede
@@ -107,8 +127,13 @@ class GameManagerService implements ISystem {
             if (this.transitionTime === 0) {
                 for (const entity of mushroomGroup.entities) {
                     const mushroom = entity as Mushroom
-                    mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
-                    mushroom.mushroomLarge.getComponent(GLTFShape).visible = true
+                    if (mushroom.poisoned) {
+                        mushroom.poisonMushroomSmall.getComponent(GLTFShape).visible = false
+                        mushroom.poisonMushroomLarge.getComponent(GLTFShape).visible = true
+                    } else {
+                        mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
+                        mushroom.mushroomLarge.getComponent(GLTFShape).visible = true
+                    }
                     entity.getComponent(MushroomComponent).health = 2
                 }
             }

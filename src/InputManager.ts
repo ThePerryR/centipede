@@ -12,6 +12,8 @@ import {SpiderComponent} from "./SpiderComponent";
 import {Spider} from "./Spider";
 import {FleaComponent} from "./FleaComponent";
 import {Flea} from "./Flea";
+import {SnailComponent} from "./SnailComponent";
+import {Snail} from "./Snail";
 
 const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
@@ -81,9 +83,16 @@ class ShootingSystem implements ISystem {
                         mushroomComponent.health--
                         if (mushroomComponent.health === 0) {
                             engine.removeEntity(hitEntity)
+                            mushroom.poisonMushroomSmall.getComponent(GLTFShape).visible = false
+                            mushroom.mushroomSmall.getComponent(GLTFShape).visible = false
                         } else if (mushroomComponent.health === 1) {
-                            mushroom.mushroomSmall.getComponent(GLTFShape).visible = true
-                            mushroom.mushroomLarge.getComponent(GLTFShape).visible = false
+                            if (mushroom.poisoned) {
+                                mushroom.poisonMushroomSmall.getComponent(GLTFShape).visible = true
+                                mushroom.poisonMushroomLarge.getComponent(GLTFShape).visible = false
+                            } else {
+                                mushroom.mushroomSmall.getComponent(GLTFShape).visible = true
+                                mushroom.mushroomLarge.getComponent(GLTFShape).visible = false
+                            }
                         }
                         collisionScore += 10
                     }
@@ -97,13 +106,21 @@ class ShootingSystem implements ISystem {
                         collisionScore += 1000
                     }
 
-                    // hit spider
+                    // hit flea
                     if (hitEntity.getComponentOrNull(FleaComponent)) {
                         const flea = hitEntity as Flea
                         this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
                         this.hitSfx.playOnce()
                         engine.removeEntity(flea)
                         collisionScore += 500
+                    }
+                    // hit snail
+                    if (hitEntity.getComponentOrNull(SnailComponent)) {
+                        const snail = hitEntity as Snail
+                        this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
+                        this.hitSfx.playOnce()
+                        engine.removeEntity(snail)
+                        collisionScore += 2000
                     }
 
                     // Hit head

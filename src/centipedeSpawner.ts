@@ -7,13 +7,11 @@ export const centipedeSpawner = {
     MAX_POOL_SIZE: gameSettings.MAX_CENTIPEDES,
     pool: [] as Entity[],
 
-    spawn(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
-        const ent = centipedeSpawner.getEntityFromPool(gameState, x, z, bodyLength, previousDirection, currentDirection)
-
-        if (!ent) return
+    spawn(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) : Centipede | null {
+        return centipedeSpawner.getEntityFromPool(gameState, x, z, bodyLength, previousDirection, currentDirection)
     },
 
-    getEntityFromPool(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction): Entity | null {
+    getEntityFromPool(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction): Centipede | null {
         for (const entity of centipedeSpawner.pool) {
             if (!entity.alive) {
                 const centipede = entity as Centipede
@@ -25,11 +23,12 @@ export const centipedeSpawner = {
                 centipede.bodyLength = bodyLength
                 centipede.previousDirection = previousDirection
                 centipede.currentDirection = currentDirection
+                centipede.fallingDown = false
                 centipede._setPositionFromDirection(1)
                 centipede.getComponent(Transform).position.x = centipede.prevX
                 centipede.getComponent(Transform).position.z = centipede.prevZ
                 centipede.initBodies()
-                return entity
+                return centipede
             }
         }
         if (centipedeSpawner.pool.length < centipedeSpawner.MAX_POOL_SIZE) {

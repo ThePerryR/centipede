@@ -11,6 +11,10 @@ import {Spider} from "./Spider";
 import {SceneManager} from "./SceneManager";
 import {FleaComponent} from "./FleaComponent";
 import {Flea} from "./Flea";
+import {mushroomSpawner} from "./mushroomSpawner";
+import {SnailComponent} from "./SnailComponent";
+import {Snail} from "./Snail";
+import {MushroomComponent} from "./MushroomComponent";
 
 function random(chance: number) {
     return Math.floor(Math.random() * chance);
@@ -26,6 +30,8 @@ function convertScore(score: number) {
 const centipedeGroup = engine.getComponentGroup(CentipedeComponent)
 const spiderGroup = engine.getComponentGroup(SpiderComponent)
 const fleaGroup = engine.getComponentGroup(FleaComponent)
+const snailGroup = engine.getComponentGroup(SnailComponent)
+const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 
 export class GameState {
     score = 0
@@ -41,6 +47,7 @@ export class GameState {
 
     constructor() {
         this.sceneManager = new SceneManager(this)
+        this.generateMushroom()
         this.generateMushroom()
         // Create screenspace component
         const canvas = new UICanvas()
@@ -100,7 +107,17 @@ export class GameState {
     }
 
     spawnMushroom(x: number, z: number) {
-        new Mushroom(x, z)
+        mushroomSpawner.spawn(x, z)
+    }
+
+    poisonArea (x: number, z: number) {
+        const targetPosition = new Vector3(x, 0, z)
+        for (const entity of mushroomSpawner.pool) {
+            const mushroom = entity as Mushroom
+            if (mushroom.alive && !mushroom.poisoned && Vector3.Distance(targetPosition, mushroom.getComponent(Transform).position) < gameSettings.SNAIL_POISON_DISTANCE) {
+                mushroom.poison()
+            }
+        }
     }
 
     startGame() {
@@ -132,7 +149,18 @@ export class GameState {
         // destroy centipedes
         this.reset()
         if (this.lives === 0) {
+            this.sceneManager.disableWalls()
             engine.addEntity(this.sceneManager.wand)
+            const mushrooms = [...mushroomGroup.entities]
+            for (const entity of mushrooms) {
+                const mushroom = entity as Mushroom
+                if (mushroom.poisoned) {
+                    mushroom.poisonMushroomSmall.getComponent(GLTFShape).visible = false
+                    mushroom.poisonMushroomLarge.getComponent(GLTFShape).visible = false
+                }
+                engine.removeEntity(entity)
+            }
+            this.generateMushroom()
             this.state = State.GameOverTransition
         } else {
             this.state = State.PlayerDeathTransition
@@ -154,6 +182,14 @@ export class GameState {
             flea.fleaSfx.playing = false
             if (flea.alive) {
                 engine.removeEntity(flea)
+            }
+        }
+        const snails = [...snailGroup.entities]
+        for (const entity of snails) {
+            const snail = entity as Snail
+            snail.snailSfx.playing = false
+            if (snail.alive) {
+                engine.removeEntity(snail)
             }
         }
 

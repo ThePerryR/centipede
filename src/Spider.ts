@@ -23,7 +23,7 @@ export class Spider extends Entity {
         this.gameState = gameState
         this.addComponent(new Transform({
             position: new Vector3(0, 1, 0),
-            scale: new Vector3(1, 0.5, 0.5)
+            scale: new Vector3(0.6, 0.6, 0.6)
         }))
         const targetBox = new BoxShape()
         targetBox.visible = false
@@ -40,7 +40,7 @@ export class Spider extends Entity {
         spiderSoundEntity.setParent(this)
         // this.squishSfxEntity = spiderSoundEntity
 
-        const triggerShape = new utils.TriggerBoxShape(new Vector3(1, 2,  0.5), new Vector3(0, 1, 0))
+        const triggerShape = new utils.TriggerBoxShape(new Vector3(0.8, 2,  0.4), new Vector3(0, 1, 0))
         this.addComponent(new utils.TriggerComponent(
             triggerShape,
             {
@@ -53,8 +53,8 @@ export class Spider extends Entity {
         ))
 
         const model = new Entity()
-        model.addComponent(new GLTFShape("models/HWN20_Spider_03.glb"))
-        model.addComponent(new Transform({scale: new Vector3(10, 10, 10)}))
+        model.addComponent(new GLTFShape("models/spider.glb"))
+        model.addComponent(new Transform({scale: new Vector3(0.4, 0.4, 0.4), rotation: Quaternion.Euler(0, 90, 0)}))
         engine.addEntity(model)
         model.setParent(this)
         this.model = model

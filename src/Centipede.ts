@@ -23,6 +23,7 @@ export class Centipede extends Entity {
     t: number = 0
     collidingWith: Mushroom | null = null
     gameState: GameState
+    fallingDown: boolean = false
 
     constructor(gameState: GameState, x: number, z: number, bodyLength: number, previousDirection: Direction, currentDirection: Direction) {
         super();
@@ -148,8 +149,16 @@ export class Centipede extends Entity {
         if (this.t >= gameSettings.MOVE_TIME) {
             this.t = 0
 
-            // todo !this.fallingStraightDown
-            if (true) {
+            if (this.fallingDown || (this.collidingWith && this.collidingWith.poisoned)) {
+                if (this.z >= 15) {
+                    this.fallingDown = false
+                } else {
+                    this.fallingDown = true
+                    this.currentDirection = Direction.Down
+                }
+            }
+
+            if (!this.fallingDown) {
                 if (this.currentDirection === Direction.Right) {
                     if (this.x >= gameSettings.RIGHT_BOUNDARY || this.collidingWith) {
                         this.setVerticalDirection()

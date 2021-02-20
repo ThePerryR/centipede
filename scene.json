@@ -1,7 +1,9 @@
 {
   "display": {
-    "title": "Test",
-    "favicon": "favicon_asset"
+    "title": "Centipede 3D",
+    "description": "Help protect the village from the centipede infestation and other monsters!",
+    "favicon": "favicon_asset",
+    "navmapThumbnail": "images/scene-thumbnail.png"
   },
   "contact": {
     "name": "Perry Ratcliff",
@@ -32,9 +34,9 @@
       "name": "spawn1",
       "default": true,
       "position": {
-        "x": 0,
+        "x": 8,
         "y": 0,
-        "z": 0
+        "z": 14.2
       },
       "cameraTarget": {
         "x": 8,

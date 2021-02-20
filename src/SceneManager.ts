@@ -24,6 +24,7 @@ export class SceneManager {
     gameState: GameState
     startGamePrompt: OkPrompt
     startSfx: AudioSource
+    walls: Entity[]
 
     constructor(gameState: GameState) {
         this.gameState = gameState
@@ -32,18 +33,52 @@ export class SceneManager {
         this.startSfx = this._initStump()
         this.wand = this._initWand()
         engine.addSystem(new WandSystem(this.wand))
+        this.walls = this._initWalls()
 
         this.startGamePrompt = new OkPrompt(
             'Please help us!\nThe monsters are coming.\nGrab that wand...',
             async () => {
                 this.startSfx.playOnce()
                 engine.removeEntity(this.wand)
+                this.enableWalls()
                 this.gameState.startGame()
             },
             'Start',
             true
         )
         this.startGamePrompt.hide()
+    }
+
+    _initWalls(): Entity[] {
+        const walls = []
+        const fence = new Entity()
+        fence.addComponent(new Transform({
+            scale: new Vector3(15, 1, 0.2),
+            position: new Vector3(8, 2, 15.6)
+        }))
+        fence.addComponent(new BoxShape())
+        fence.getComponent(BoxShape).visible = false
+        walls.push(fence)
+        const main = new Entity()
+        main.addComponent(new Transform({
+            scale: new Vector3(15, 1, 9),
+            position: new Vector3(8, 2.2, 5)
+        }))
+        main.addComponent(new BoxShape())
+        main.getComponent(BoxShape).visible = false
+        walls.push(main)
+        return walls
+    }
+
+    enableWalls() {
+        for (const wall of this.walls) {
+            engine.addEntity(wall)
+        }
+    }
+    disableWalls() {
+        for (const wall of this.walls) {
+            engine.removeEntity(wall)
+        }
     }
 
     _initWand() {
@@ -126,7 +161,7 @@ export class SceneManager {
         const startSoundEntity = new Entity()
         const startSoundClip = new AudioClip("sounds/game-start.wav")
         const startSfx = new AudioSource(startSoundClip)
-            startSfx.volume = 1
+        startSfx.volume = 1
         startSoundEntity.addComponent(startSfx)
         engine.addEntity(startSoundEntity)
         startSoundEntity.setParent(stump)
