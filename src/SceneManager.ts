@@ -59,6 +59,24 @@ export class SceneManager {
         fence.addComponent(new BoxShape())
         fence.getComponent(BoxShape).visible = false
         walls.push(fence)
+
+        const left = new Entity()
+        left.addComponent(new Transform({
+            scale: new Vector3(0.2, 2, 6),
+            position: new Vector3(15.5, 1, 12)
+        }))
+        left.addComponent(new BoxShape())
+        left.getComponent(BoxShape).visible = false
+        walls.push(left)
+        const right = new Entity()
+        right.addComponent(new Transform({
+            scale: new Vector3(0.2, 2, 6),
+            position: new Vector3(0.4, 1, 12)
+        }))
+        right.addComponent(new BoxShape())
+        right.getComponent(BoxShape).visible = false
+        walls.push(right)
+
         const main = new Entity()
         main.addComponent(new Transform({
             scale: new Vector3(15, 1, 9),

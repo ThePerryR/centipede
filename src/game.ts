@@ -48,8 +48,21 @@ class GameManagerService implements ISystem {
     transitionTime: number = 0
 
     constructor() {
+        const cacheSpider = new Entity()
+        cacheSpider.addComponent(new GLTFShape("models/spider.glb"))
+        cacheSpider.addComponent(new Transform({scale: new Vector3(0, 0, 0)}))
+        engine.addEntity(cacheSpider)
         this.spider = new Spider(gameState)
+
+        const cacheFlea = new Entity()
+        cacheFlea.addComponent(new GLTFShape("models/flea.glb"))
+        cacheFlea.addComponent(new Transform({scale: new Vector3(0, 0, 0)}))
+        engine.addEntity(cacheFlea)
         this.flea = new Flea(gameState)
+        const cacheSnail = new Entity()
+        cacheSnail.addComponent(new GLTFShape("models/snail.glb"))
+        cacheSnail.addComponent(new Transform({scale: new Vector3(0, 0, 0)}))
+        engine.addEntity(cacheSnail)
         this.snail = new Snail(gameState)
     }
 
