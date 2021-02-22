@@ -1,3 +1,5 @@
+import {getUserData, getUserPublicKey} from "@decentraland/Identity"
+
 import {SceneManager} from './SceneManager'
 import {CentipedeComponent} from './CentipedeComponent'
 import {Centipede} from './Centipede'
@@ -169,4 +171,3 @@ class GameManagerService implements ISystem {
 engine.addSystem(new GameManagerService())
 
 const sceneManager = gameState.sceneManager
-

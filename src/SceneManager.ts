@@ -25,6 +25,9 @@ export class SceneManager {
     startGamePrompt: OkPrompt
     startSfx: AudioSource
     walls: Entity[]
+    highscoreList: Entity
+    personBest: Entity
+    arrow: Entity
 
     constructor(gameState: GameState) {
         this.gameState = gameState
@@ -35,11 +38,27 @@ export class SceneManager {
         engine.addSystem(new WandSystem(this.wand))
         this.walls = this._initWalls()
 
+
+        const siren = new Entity()
+        siren.addComponent(new Transform({
+            position: new Vector3(8, 2, 13.44),
+            scale: new Vector3(4, 4, 4)
+        }))
+        const animator = new Animator()
+        const clip = new AnimationState('ArmatureAction', { looping: true })
+        animator.addClip(clip)
+        siren.addComponent(animator)
+        siren.addComponent(new GLTFShape('a491051c-8092-4245-ae85-d274e90d8443/models/Arrow.glb'))
+        clip.play()
+        engine.addEntity(siren)
+        this.arrow = siren
+
         this.startGamePrompt = new OkPrompt(
             'Please help us!\nThe monsters are coming.\nGrab that wand...',
             async () => {
                 this.startSfx.playOnce()
                 engine.removeEntity(this.wand)
+                engine.removeEntity(this.arrow)
                 this.enableWalls()
                 this.gameState.startGame()
             },
@@ -47,6 +66,64 @@ export class SceneManager {
             true
         )
         this.startGamePrompt.hide()
+
+        const smallStoneWall = new Entity('smallStoneWall')
+        engine.addEntity(smallStoneWall)
+        const transform = new Transform({
+            position: new Vector3(15.8, 0, 15.4)
+        })
+        smallStoneWall.addComponentOrReplace(transform)
+        const gltfShape = new GLTFShape("models/FenceStoneTallSmall_01/FenceStoneTallSmall_01.glb")
+        gltfShape.withCollisions = true
+        gltfShape.isPointerBlocker = true
+        gltfShape.visible = true
+        smallStoneWall.addComponentOrReplace(gltfShape)
+
+        this.highscoreList = new Entity()
+        this.highscoreList.addComponent(new Transform({
+            position: new Vector3(15.65, 1.1, 14.92),
+            rotation: Quaternion.Euler(0, 90, 0),
+            scale: new Vector3(0.6, 0.6, 0.6)
+        }))
+        const hsTextShape = new TextShape("Loading...")
+        hsTextShape.fontSize = 1
+        hsTextShape.color = Color3.White()
+        hsTextShape.font = new Font(Fonts.SanFrancisco)
+        this.highscoreList.addComponent(hsTextShape)
+        engine.addEntity(this.highscoreList)
+
+        this.personBest = new Entity()
+        this.personBest.addComponent(new Transform({
+            position: new Vector3(15.65, 0.3, 14.92),
+            rotation: Quaternion.Euler(0, 90, 0),
+            scale: new Vector3(0.8, 0.8, 0.8)
+        }))
+        const personalTextShape = new TextShape("Personal Best: None")
+        personalTextShape.fontSize = 1
+        personalTextShape.color = Color3.White()
+        personalTextShape.font = new Font(Fonts.SanFrancisco)
+        this.personBest.addComponent(personalTextShape)
+        engine.addEntity(this.personBest)
+
+        const hsLabel = new Entity()
+        hsLabel.addComponent(new Transform({
+            position: new Vector3(15.65, 1.5 , 14.92),
+            rotation: Quaternion.Euler(0, 90, 0),
+            scale: new Vector3(1.2, 1.2, 1.2)
+        }))
+        const hsLabelShape = new TextShape("HIGHSCORES")
+        hsLabelShape.fontSize = 1
+        hsLabelShape.color = Color3.White()
+        hsLabelShape.font = new Font(Fonts.SanFrancisco)
+        hsLabel.addComponent(hsLabelShape)
+        engine.addEntity(hsLabel)
+    }
+
+    displayHighscores(highscores: { fields: { displayName: string, score: number } }[]) {
+        this.highscoreList.getComponent(TextShape).value = `${highscores.map(({fields}) => `${fields.displayName}: ${fields.score.toLocaleString()}\n`).join('')}`
+    }
+    displayPersonalHighscore(score: number) {
+        this.personBest.getComponent(TextShape).value = `Personal Best: ${score.toLocaleString()}`
     }
 
     _initWalls(): Entity[] {
@@ -93,6 +170,7 @@ export class SceneManager {
             engine.addEntity(wall)
         }
     }
+
     disableWalls() {
         for (const wall of this.walls) {
             engine.removeEntity(wall)

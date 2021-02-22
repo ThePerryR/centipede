@@ -11,15 +11,9 @@
     "ecs:install-next": "npm install --save-dev decentraland-ecs@next"
   },
   "devDependencies": {
-    "decentraland-ecs": "latest"
+    "decentraland-ecs": "^6.4.10-20200730183001.commit-bdbe999"
   },
   "dependencies": {
-    "@dcl/ui-scene-utils": "^1.7.1",
-    "airtable": "^0.10.1",
-    "decentraland-ecs-utils": "^1.5.2",
-    "millify": "^3.5.0"
-  },
-  "bundleDependencies": [
-    "@dcl/ui-scene-utils"
-  ]
+    "decentraland-builder-scripts": "^0.24.0"
+  }
 }

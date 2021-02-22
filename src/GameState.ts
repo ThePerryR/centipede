@@ -1,5 +1,5 @@
 import {CornerLabel, SmallIcon} from '@dcl/ui-scene-utils'
-import millify from '../node_modules/millify/dist/millify'
+import {getUserPublicKey, getUserData} from "@decentraland/Identity";
 
 import {Mushroom} from './Mushroom'
 import State from "./constants/State";
@@ -47,6 +47,8 @@ export class GameState {
 
     constructor() {
         this.sceneManager = new SceneManager(this)
+        this.fetchScores()
+        this.fetchHighscore()
         this.generateMushroom()
         this.generateMushroom()
         // Create screenspace component
@@ -90,6 +92,38 @@ export class GameState {
         // this.squishSfxEntity = deathSoundEntity
     }
 
+    fetchScores () {
+        executeTask(async () => {
+            try {
+                let response = await fetch('https://centipede-leaderboards.herokuapp.com/highscores')
+                let json = await response.json()
+                if (json && Array.isArray(json)) {
+                    this.sceneManager.displayHighscores(json)
+                }
+            } catch {
+                log("failed to reach URL")
+            }
+        })
+    }
+
+    fetchHighscore () {
+        executeTask(async () => {
+            try {
+                const userData = await getUserData()
+                if (userData) {
+                    log('hitting', `https://centipede-leaderboards.herokuapp.com/highscores/${userData.userId}`)
+                    let response = await fetch(`https://centipede-leaderboards.herokuapp.com/highscores/${userData.userId}`)
+                    let json = await response.json()
+                    log('personal!!!!', json)
+                    if (json && json.fields) {
+                        this.sceneManager.displayPersonalHighscore(json.fields.score)
+                    }
+                }
+            } catch {
+                log("failed to reach URL")
+            }
+        })
+    }
 
     incrementScore(score: number) {
         this.score += score
@@ -110,7 +144,7 @@ export class GameState {
         mushroomSpawner.spawn(x, z)
     }
 
-    poisonArea (x: number, z: number) {
+    poisonArea(x: number, z: number) {
         const targetPosition = new Vector3(x, 0, z)
         for (const entity of mushroomSpawner.pool) {
             const mushroom = entity as Mushroom
@@ -151,6 +185,7 @@ export class GameState {
         if (this.lives === 0) {
             this.sceneManager.disableWalls()
             engine.addEntity(this.sceneManager.wand)
+            engine.addEntity(this.sceneManager.arrow)
             const mushrooms = [...mushroomGroup.entities]
             for (const entity of mushrooms) {
                 const mushroom = entity as Mushroom
@@ -162,6 +197,31 @@ export class GameState {
             }
             this.generateMushroom()
             this.state = State.GameOverTransition
+
+
+            executeTask(async () => {
+                try {
+                    const publicKey = await getUserPublicKey()
+                    const userData = await getUserData()
+                    if (this.score) {
+                        const response = await fetch('https://centipede-leaderboards.herokuapp.com/score', {
+                            headers: {
+                                Accept: 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            method: "POST",
+                            body: JSON.stringify({publicKey, userData, score: this.score}),
+                        })
+                        const json = await response.json()
+                        if (json.newHighscore) {
+                            this.sceneManager.displayPersonalHighscore(this.score)
+                        }
+                        this.fetchScores()
+                    }
+                } catch {
+                    log("failed to reach URL")
+                }
+            })
         } else {
             this.state = State.PlayerDeathTransition
         }
