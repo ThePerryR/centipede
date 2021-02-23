@@ -28,7 +28,6 @@ const mushroomGroup = engine.getComponentGroup(MushroomComponent)
 let firstCentipede: Centipede | null
 
 function initialiseLevel() {
-    engine.removeEntity(gameState.hideAvatarsEntity)
     firstCentipede = centipedeSpawner.spawn(gameState, 8, 2, gameSettings.MINIMUM_LENGTH + gameState.level, Direction.Down, Direction.Right)
 
     for (let i = 1; i < gameState.level && i < gameSettings.MAX_CENTIPEDES; i++) {

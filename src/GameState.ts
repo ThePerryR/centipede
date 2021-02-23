@@ -43,7 +43,6 @@ export class GameState {
     counter: UIText
     instructions: UIText
     hearts: SmallIcon[]
-    hideAvatarsEntity: Entity
     deathSfx: AudioSource
 
     constructor() {
@@ -87,16 +86,6 @@ export class GameState {
             new SmallIcon('images/heart.png', -64, 0),
             new SmallIcon('images/heart.png', -96, 0),
         ]
-
-        const hideAvatarsEntity = new Entity()
-        hideAvatarsEntity.addComponent(new AvatarModifierArea({
-            area: {box: new Vector3(16, 4, 16)},
-            modifiers: [AvatarModifiers.HIDE_AVATARS]
-        }))
-        hideAvatarsEntity.addComponent(new Transform({
-            position: new Vector3(8, 2, 8)
-        }))
-        this.hideAvatarsEntity = hideAvatarsEntity
 
         const deathSoundEntity = new Entity()
         const deathSoundClip = new AudioClip("sounds/death.wav")
@@ -192,9 +181,8 @@ export class GameState {
         }
         this.hearts[this.lives].hide()
 
-        // hide the player
-        engine.addEntity(this.hideAvatarsEntity)
         // play the death sound
+        log("PLAYING")
         this.deathSfx.playOnce()
         // destroy centipedes
         this.reset()

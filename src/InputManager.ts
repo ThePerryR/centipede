@@ -1,3 +1,5 @@
+import utils from "../node_modules/decentraland-ecs-utils/index";
+
 import {CentipedeComponent} from "./CentipedeComponent";
 import {Centipede} from "./Centipede";
 import {BodyComponent} from "./BodyComponent";
@@ -26,9 +28,8 @@ class ShootingSystem implements ISystem {
     squishSfxEntity: Entity
     shooting: Boolean = false
     cooldown: number = 0
-
-    origin: Entity
-    origin2: Entity
+    hitspot: Entity
+    points: Entity
 
     constructor(gameState: GameState) {
         this.gameState = gameState
@@ -60,22 +61,19 @@ class ShootingSystem implements ISystem {
         engine.addEntity(squishSoundEntity)
         this.squishSfxEntity = squishSoundEntity
 
-        this.origin2 = new Entity()
-        this.origin2.addComponent(new Transform({
-            scale: new Vector3(0.1, 0.1, 0.1)
+        this.hitspot = new Entity()
+        this.hitspot.addComponent(new Transform())
+
+        this.points = new Entity()
+        this.points.addComponent(new TextShape("500"))
+        this.points.addComponent(new Transform({
+            position: new Vector3(8, 0.5, 8),
+            scale: new Vector3(1, 1, 1),
+            rotation: Quaternion.Euler(0, 180, 0)
         }))
-        this.origin2.addComponent(new SphereShape())
-        this.origin2.getComponent(SphereShape).withCollisions = false
-        this.origin2.getComponent(SphereShape).isPointerBlocker = false
-        engine.addEntity(this.origin2)
-        this.origin = new Entity()
-        this.origin.addComponent(new Transform({
-            scale: new Vector3(0.1, 0.1, 0.1)
-        }))
-        this.origin.addComponent(new SphereShape())
-        this.origin.getComponent(SphereShape).withCollisions = false
-        this.origin.getComponent(SphereShape).isPointerBlocker = false
-        engine.addEntity(this.origin)
+        this.points.getComponent(TextShape).fontSize = 3
+        this.points.getComponent(TextShape).color = Color3.Blue()
+        this.points.getComponent(TextShape).opacity = 0.8
     }
 
     update(dt: number) {
@@ -91,11 +89,6 @@ class ShootingSystem implements ISystem {
             let physicsCast = PhysicsCast.instance
             let rayFromCamera = physicsCast.getRayFromCamera(1000)
 
-            console.log(rayFromCamera)
-            this.origin2.getComponent(Transform).position = new Vector3(rayFromCamera.origin.x, rayFromCamera.origin.y, rayFromCamera.origin.z)
-            this.origin.getComponent(Transform).position = new Vector3(rayFromCamera.origin.x, rayFromCamera.origin.y, rayFromCamera.origin.z)
-            const d = new Vector3(rayFromCamera.direction.x, rayFromCamera.direction.y, rayFromCamera.direction.z)
-            this.origin.getComponent(Transform).translate(d.scale(4))
             physicsCast.hitFirst(rayFromCamera, (e) => {
                 const hitEntity = engine.entities[e.entity.entityId]
                 if (hitEntity) {
@@ -129,6 +122,7 @@ class ShootingSystem implements ISystem {
                         this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
                         this.hitSfx.playOnce()
                         engine.removeEntity(spider)
+                        this.points.getComponent(TextShape).color = Color3.Red()
                         collisionScore += 1000
                     }
 
@@ -138,6 +132,7 @@ class ShootingSystem implements ISystem {
                         this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
                         this.hitSfx.playOnce()
                         engine.removeEntity(flea)
+                        this.points.getComponent(TextShape).color = Color3.Black()
                         collisionScore += 500
                     }
                     // hit snail
@@ -146,6 +141,7 @@ class ShootingSystem implements ISystem {
                         this.hitSfxEntity.getComponent(Transform).position = hitEntity.getComponent(Transform).position.add(new Vector3(0, 1, 0))
                         this.hitSfx.playOnce()
                         engine.removeEntity(snail)
+                        this.points.getComponent(TextShape).color = Color3.Magenta()
                         collisionScore += 2000
                     }
 
@@ -203,6 +199,15 @@ class ShootingSystem implements ISystem {
 
                     if (collisionScore) {
                         this.gameState.incrementScore(collisionScore)
+                        if (collisionScore > 100) {
+                            this.points.getComponent(Transform).position = hitEntity.getComponent(Transform).position
+                            this.points.getComponent(Transform).lookAt(Camera.instance.position)
+                            this.points.getComponent(Transform).rotate(new Vector3(0, 1, 0), 180)
+                            this.points.getComponent(TextShape).value = collisionScore.toString()
+                            this.points.removeComponent(utils.ExpireIn)
+                            engine.addEntity(this.points)
+                            this.points.addComponent(new utils.ExpireIn(3000))
+                        }
                     }
                 }
             })

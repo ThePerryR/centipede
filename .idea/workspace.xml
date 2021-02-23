@@ -10,6 +10,8 @@
       <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,19 +40,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/models" />
+      <recent name="D:\dcl" />
+      <recent name="D:\dcl\models" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\dcl" />
       <recent name="D:\dcl\models" />
       <recent name="D:\dcl\models\FloorBaseGrass_01" />
       <recent name="$PROJECT_DIR$/sounds" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/models" />
-      <recent name="D:\dcl" />
-      <recent name="D:\dcl\models" />
-    </key>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -86,15 +88,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="540" y="294" width="599" height="486" key="find.popup" timestamp="1614036230587">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="540" y="294" width="599" height="486" key="find.popup/0.25.1680.1025@0.25.1680.1025" timestamp="1614036230587" />
-    <state x="505" y="252" width="670" height="676" key="search.everywhere.popup" timestamp="1614036179064">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="505" y="252" width="670" height="676" key="search.everywhere.popup/0.25.1680.1025@0.25.1680.1025" timestamp="1614036179064" />
   </component>
 </project>

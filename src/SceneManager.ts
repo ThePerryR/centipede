@@ -222,12 +222,13 @@ export class SceneManager {
         right.getComponent(BoxShape).visible = false
         walls.push(right)
 
-        const main = new Entity()
+        const main = new Entity("main")
         main.addComponent(new Transform({
             scale: new Vector3(15, 1, 9),
             position: new Vector3(8, 2.2, 5)
         }))
         main.addComponent(new BoxShape())
+        main.getComponent(BoxShape).isPointerBlocker = false
         main.getComponent(BoxShape).visible = false
         walls.push(main)
         return walls
