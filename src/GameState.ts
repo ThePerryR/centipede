@@ -1,4 +1,4 @@
-import {CornerLabel, SmallIcon} from '@dcl/ui-scene-utils'
+import {CornerLabel, SmallIcon, displayAnnouncement} from '@dcl/ui-scene-utils'
 import {getUserPublicKey, getUserData} from "@decentraland/Identity";
 
 import {Mushroom} from './Mushroom'
@@ -41,6 +41,7 @@ export class GameState {
     sceneManager: SceneManager
 
     counter: UIText
+    instructions: UIText
     hearts: SmallIcon[]
     hideAvatarsEntity: Entity
     deathSfx: AudioSource
@@ -62,8 +63,23 @@ export class GameState {
         this.counter.fontSize = 32
         this.counter.outlineColor = Color4.Black()
         this.counter.outlineWidth = 0.2
-        this.counter.opacity = 0.8
         this.counter.value = '0'
+
+
+        this.instructions = new UIText(canvas)
+        this.instructions.hAlign = 'center'
+        this.instructions.vAlign = 'bottom'
+        //this.counter.positionX = -32
+        //this.counter.hTextAlign = 'right'
+        this.instructions.color = Color4.White()
+        this.instructions.fontSize = 14
+        this.instructions.outlineColor = Color4.Black()
+        this.instructions.outlineWidth = 0.2
+        this.instructions.opacity = 0.6
+        this.instructions.value = 'Click to shoot.'
+        this.instructions.visible = false
+
+
         // this.counter = new CornerLabel(convertScore(this.score), 0, 6, Color4.Blue(), 40, false)
         //this.counter.hide()
         this.hearts = [
@@ -111,10 +127,8 @@ export class GameState {
             try {
                 const userData = await getUserData()
                 if (userData) {
-                    log('hitting', `https://centipede-leaderboards.herokuapp.com/highscores/${userData.userId}`)
                     let response = await fetch(`https://centipede-leaderboards.herokuapp.com/highscores/${userData.userId}`)
                     let json = await response.json()
-                    log('personal!!!!', json)
                     if (json && json.fields) {
                         this.sceneManager.displayPersonalHighscore(json.fields.score)
                     }
@@ -162,6 +176,8 @@ export class GameState {
         for (const heart of this.hearts) {
             heart.show()
         }
+        this.instructions.visible = true
+        this.instructions.value = "Click to shoot"
         this.state = State.LevelTransition
     }
 
@@ -183,6 +199,7 @@ export class GameState {
         // destroy centipedes
         this.reset()
         if (this.lives === 0) {
+            this.instructions.value = "Game Over"
             this.sceneManager.disableWalls()
             engine.addEntity(this.sceneManager.wand)
             engine.addEntity(this.sceneManager.arrow)
@@ -214,6 +231,7 @@ export class GameState {
                         })
                         const json = await response.json()
                         if (json.newHighscore) {
+                            displayAnnouncement('New High Score!')
                             this.sceneManager.displayPersonalHighscore(this.score)
                         }
                         this.fetchScores()
@@ -223,6 +241,7 @@ export class GameState {
                 }
             })
         } else {
+            this.instructions.value = "Click to start again."
             this.state = State.PlayerDeathTransition
         }
     }

@@ -64,6 +64,8 @@ export class Spider extends Entity {
         this.t += dt
         if (this.t >= gameSettings.SPIDER_MOVE_TIME) {
             this.getComponent(Transform).lookAt(Camera.instance.position)
+            const o = this.getComponent(Transform)
+            o.rotation = Quaternion.Euler(0, o.eulerAngles.y - 90, 0)
             this.t = 0
 
             if (this.x < -1 || this.x >= gameSettings.RIGHT_BOUNDARY) {

@@ -1,9 +1,12 @@
 import utils from "../node_modules/decentraland-ecs-utils/index";
-import {OkPrompt} from '@dcl/ui-scene-utils'
+import {canvas, OkPrompt} from '@dcl/ui-scene-utils'
 
 import {GameState} from "./GameState";
 import State from "./constants/State";
 
+function random(chance: number) {
+    return Math.floor(Math.random() * chance);
+}
 
 class WandSystem implements ISystem {
     wand: Entity
@@ -38,14 +41,13 @@ export class SceneManager {
         engine.addSystem(new WandSystem(this.wand))
         this.walls = this._initWalls()
 
-
         const siren = new Entity()
         siren.addComponent(new Transform({
             position: new Vector3(8, 2, 13.44),
             scale: new Vector3(4, 4, 4)
         }))
         const animator = new Animator()
-        const clip = new AnimationState('ArmatureAction', { looping: true })
+        const clip = new AnimationState('ArmatureAction', {looping: true})
         animator.addClip(clip)
         siren.addComponent(animator)
         siren.addComponent(new GLTFShape('a491051c-8092-4245-ae85-d274e90d8443/models/Arrow.glb'))
@@ -81,13 +83,13 @@ export class SceneManager {
 
         this.highscoreList = new Entity()
         this.highscoreList.addComponent(new Transform({
-            position: new Vector3(15.65, 1.1, 14.92),
+            position: new Vector3(15.65, 0.9, 14.92),
             rotation: Quaternion.Euler(0, 90, 0),
-            scale: new Vector3(0.6, 0.6, 0.6)
+            scale: new Vector3(0.55, 0.55, 0.55)
         }))
         const hsTextShape = new TextShape("Loading...")
         hsTextShape.fontSize = 1
-        hsTextShape.color = Color3.White()
+        hsTextShape.color = Color3.Black()
         hsTextShape.font = new Font(Fonts.SanFrancisco)
         this.highscoreList.addComponent(hsTextShape)
         engine.addEntity(this.highscoreList)
@@ -107,7 +109,7 @@ export class SceneManager {
 
         const hsLabel = new Entity()
         hsLabel.addComponent(new Transform({
-            position: new Vector3(15.65, 1.5 , 14.92),
+            position: new Vector3(15.65, 1.5, 14.92),
             rotation: Quaternion.Euler(0, 90, 0),
             scale: new Vector3(1.2, 1.2, 1.2)
         }))
@@ -117,11 +119,77 @@ export class SceneManager {
         hsLabelShape.font = new Font(Fonts.SanFrancisco)
         hsLabel.addComponent(hsLabelShape)
         engine.addEntity(hsLabel)
+
+        this._initGrass()
+    }
+
+    _initGrass() {
+        for (let z = 1; z < 14; z++) {
+            if (random(5) === 0) {
+                const grass = new Entity()
+                const scale = random(5) + 5
+                grass.addComponent(new Transform({
+                    position: new Vector3(0.54, 0, z),
+                    rotation: Quaternion.Euler(0, random(359), 0),
+                    scale: new Vector3(scale * 0.1, scale * 0.1, scale * 0.1)
+                }))
+                grass.addComponent(new GLTFShape("models/Grass_03/Grass_03.glb"))
+                engine.addEntity(grass)
+            }
+            if (random(5) === 0) {
+                const grass = new Entity()
+                const scale = random(5) + 5
+                grass.addComponent(new Transform({
+                    position: new Vector3(15.4, 0, z),
+                    rotation: Quaternion.Euler(0, random(359), 0),
+                    scale: new Vector3(scale * 0.1, scale * 0.1, scale * 0.1)
+                }))
+                grass.addComponent(new GLTFShape("models/Grass_03/Grass_03.glb"))
+                engine.addEntity(grass)
+            }
+        }
+
+        const p1 = new Entity()
+        p1.addComponent(new Transform({
+            position: new Vector3(5, 0, 14),
+            rotation: Quaternion.Euler(0, 0, 0),
+        }))
+        p1.addComponent(new GLTFShape("models/Rock_Patch_01/Rock_Patch_01.glb"))
+        engine.addEntity(p1)
+        const p2 = new Entity()
+        p2.addComponent(new Transform({
+            position: new Vector3(2, 0, 13.85),
+            rotation: Quaternion.Euler(0, 0, 0),
+        }))
+        p2.addComponent(new GLTFShape("models/Rock_Patch_03/Rock_Patch_03.glb"))
+        engine.addEntity(p2)
+        const p3 = new Entity()
+        p3.addComponent(new Transform({
+            position: new Vector3(12, 0, 14),
+            rotation: Quaternion.Euler(0, 0, 0),
+        }))
+        p3.addComponent(new GLTFShape("models/Rock_Patch_03/Rock_Patch_03.glb"))
+        engine.addEntity(p3)
+        const p4 = new Entity()
+        p4.addComponent(new Transform({
+            position: new Vector3(10, 0, 13.4),
+            rotation: Quaternion.Euler(0, 0, 0),
+        }))
+        p4.addComponent(new GLTFShape("models/Rock_Patch_01/Rock_Patch_01.glb"))
+        engine.addEntity(p4)
+        const p5 = new Entity()
+        p5.addComponent(new Transform({
+            position: new Vector3(14, 0, 13.4),
+            rotation: Quaternion.Euler(0, 24, 0),
+        }))
+        p5.addComponent(new GLTFShape("models/Rock_Patch_01/Rock_Patch_01.glb"))
+        engine.addEntity(p5)
     }
 
     displayHighscores(highscores: { fields: { displayName: string, score: number } }[]) {
         this.highscoreList.getComponent(TextShape).value = `${highscores.map(({fields}) => `${fields.displayName}: ${fields.score.toLocaleString()}\n`).join('')}`
     }
+
     displayPersonalHighscore(score: number) {
         this.personBest.getComponent(TextShape).value = `Personal Best: ${score.toLocaleString()}`
     }

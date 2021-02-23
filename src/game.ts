@@ -163,6 +163,7 @@ class GameManagerService implements ISystem {
             if (inputManager.shootingSystem.shooting) {
                 sceneManager.startSfx.playOnce()
                 gameState.state = State.LevelTransition
+                gameState.instructions.value = "Click to shoot."
             }
         }
     }

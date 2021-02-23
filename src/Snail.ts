@@ -30,10 +30,10 @@ export class Snail extends Entity {
         this.addComponent(new SnailComponent())
 
         const snailSoundEntity = new Entity()
-        const snailSoundClip = new AudioClip("sounds/monster-2.wav")
+        const snailSoundClip = new AudioClip("sounds/monster-1.wav")
         this.snailSfx = new AudioSource(snailSoundClip)
         this.snailSfx.loop = true
-        this.snailSfx.volume = 0.5
+        this.snailSfx.volume = 1
         snailSoundEntity.addComponent(this.snailSfx)
         engine.addEntity(snailSoundEntity)
         snailSoundEntity.setParent(this)
