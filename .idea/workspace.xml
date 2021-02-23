@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InputManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

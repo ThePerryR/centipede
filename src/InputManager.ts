@@ -27,6 +27,9 @@ class ShootingSystem implements ISystem {
     shooting: Boolean = false
     cooldown: number = 0
 
+    origin: Entity
+    origin2: Entity
+
     constructor(gameState: GameState) {
         this.gameState = gameState
 
@@ -56,6 +59,23 @@ class ShootingSystem implements ISystem {
         squishSoundEntity.addComponent(this.squishSfx)
         engine.addEntity(squishSoundEntity)
         this.squishSfxEntity = squishSoundEntity
+
+        this.origin2 = new Entity()
+        this.origin2.addComponent(new Transform({
+            scale: new Vector3(0.1, 0.1, 0.1)
+        }))
+        this.origin2.addComponent(new SphereShape())
+        this.origin2.getComponent(SphereShape).withCollisions = false
+        this.origin2.getComponent(SphereShape).isPointerBlocker = false
+        engine.addEntity(this.origin2)
+        this.origin = new Entity()
+        this.origin.addComponent(new Transform({
+            scale: new Vector3(0.1, 0.1, 0.1)
+        }))
+        this.origin.addComponent(new SphereShape())
+        this.origin.getComponent(SphereShape).withCollisions = false
+        this.origin.getComponent(SphereShape).isPointerBlocker = false
+        engine.addEntity(this.origin)
     }
 
     update(dt: number) {
@@ -70,6 +90,12 @@ class ShootingSystem implements ISystem {
 
             let physicsCast = PhysicsCast.instance
             let rayFromCamera = physicsCast.getRayFromCamera(1000)
+
+            console.log(rayFromCamera)
+            this.origin2.getComponent(Transform).position = new Vector3(rayFromCamera.origin.x, rayFromCamera.origin.y, rayFromCamera.origin.z)
+            this.origin.getComponent(Transform).position = new Vector3(rayFromCamera.origin.x, rayFromCamera.origin.y, rayFromCamera.origin.z)
+            const d = new Vector3(rayFromCamera.direction.x, rayFromCamera.direction.y, rayFromCamera.direction.z)
+            this.origin.getComponent(Transform).translate(d.scale(4))
             physicsCast.hitFirst(rayFromCamera, (e) => {
                 const hitEntity = engine.entities[e.entity.entityId]
                 if (hitEntity) {

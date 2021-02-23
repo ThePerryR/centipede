@@ -231,8 +231,10 @@ export class GameState {
                         })
                         const json = await response.json()
                         if (json.newHighscore) {
-                            displayAnnouncement('New High Score!', 4, Color4.Red())
+                            displayAnnouncement('New High Score!', 5, Color4.Red())
                             this.sceneManager.displayPersonalHighscore(this.score)
+                        } else {
+                            displayAnnouncement('Game Over!', 3, Color4.White())
                         }
                         this.fetchScores()
                     }
