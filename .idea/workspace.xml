@@ -5,31 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aca7998-53a8-45b9-89a0-7dc8be66bd22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/Grass_03/Grass_03.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Grass_03/file1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Grass_03/thumbnail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Mountain_03/FanstasyPack_TX.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Mountain_03/Mountain_03.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Mountain_03/thumbnail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_06/FanstasyPack_TX.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_06/Rock_06.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_06/thumbnail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_01/FanstasyPack_TX.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_01/Rock_Patch_01.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_01/thumbnail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_03/FanstasyPack_TX.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_03/Rock_Patch_03.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/Rock_Patch_03/thumbnail.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/game.js.lib" beforeDir="false" afterPath="$PROJECT_DIR$/bin/game.js.lib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SceneManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/SceneManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Snail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Snail.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Spider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spider.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/gameSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/gameSettings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
