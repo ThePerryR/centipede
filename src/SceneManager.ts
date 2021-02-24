@@ -44,7 +44,8 @@ export class SceneManager {
         const siren = new Entity()
         siren.addComponent(new Transform({
             position: new Vector3(8, 2, 13.44),
-            scale: new Vector3(4, 4, 4)
+            scale: new Vector3(4, 4, 4),
+            rotation: Quaternion.Euler(0, 90, 0)
         }))
         const animator = new Animator()
         const clip = new AnimationState('ArmatureAction', {looping: true})
@@ -294,8 +295,6 @@ export class SceneManager {
     _initFence() {
         for (let i = 0; i < 6; i++) {
             const fence = new Entity('fence')
-            engine.addEntity(fence)
-
             const gltfShape = new GLTFShape("models/fence.glb")
             fence.addComponent(gltfShape)
             const collider = new Entity()
@@ -309,6 +308,7 @@ export class SceneManager {
                 position: new Vector3(1.5 + i * 2.5, 0, 15.6),
                 rotation: Quaternion.Euler(0, -90, 0)
             }))
+            engine.addEntity(fence)
         }
     }
 

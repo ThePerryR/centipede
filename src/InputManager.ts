@@ -17,8 +17,6 @@ import {Flea} from "./Flea";
 import {SnailComponent} from "./SnailComponent";
 import {Snail} from "./Snail";
 
-const mushroomGroup = engine.getComponentGroup(MushroomComponent)
-
 class ShootingSystem implements ISystem {
     gameState: GameState
     shootSfx: AudioSource
@@ -30,6 +28,7 @@ class ShootingSystem implements ISystem {
     cooldown: number = 0
     hitspot: Entity
     points: Entity
+    bulletTime: number = 0
 
     constructor(gameState: GameState) {
         this.gameState = gameState
@@ -74,6 +73,8 @@ class ShootingSystem implements ISystem {
         this.points.getComponent(TextShape).fontSize = 3
         this.points.getComponent(TextShape).color = Color3.Blue()
         this.points.getComponent(TextShape).opacity = 0.8
+
+
     }
 
     update(dt: number) {

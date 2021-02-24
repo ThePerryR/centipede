@@ -20,7 +20,6 @@ export class Mushroom extends Entity {
         engine.addEntity(this)
         const scale = new Vector3(0.2, 0.3, 0.2)
         const position = new Vector3(x, 0.15, z)
-        const rotation = Quaternion.Euler(0, random(360), 0)
         this.addComponent(new Transform({position, scale}))
         this.addComponent(new MushroomComponent())
         const targetShape = new BoxShape()
